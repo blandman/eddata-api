@@ -7,7 +7,7 @@ var jwt = require('jwt-simple');
 var passport = require('passport');
 
 router.route('/v1/users')
-  .post(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .post(function(req, res) {
     var payload = {"name": req.body.user.name,"email": req.body.user.email};
     var token = jwt.encode(payload, process.env.TOKEN_SECRET);
     req.body.user.token = token;
