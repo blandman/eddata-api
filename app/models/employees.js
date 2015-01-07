@@ -7,6 +7,7 @@ var passportLocalMongoose = require('passport-local-mongoose');
 var EmployeeSchema = new Schema({
   nameId: Number,
   nalphakey: String,
+  username: String,
   startDate: Date,
   building: Number,
   buildingStateCode: Number,
