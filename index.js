@@ -69,6 +69,7 @@ require('./app/config/passport')(passport);
 app.use('/api', require('./app/routes/employees'));
 app.use('/api', require('./app/routes/auth'));
 app.use('/api', require('./app/routes/users'));
+app.use('/api', require('./app/routes/students'));
 
 //error log configuration
 app.use(expressWinston.errorLogger({
@@ -90,4 +91,4 @@ process.on('SIGINT', function() {
 // START THE SERVER
 // =============================================================================
 app.listen(port);
-console.log('rewardio api data spewing from port ' + port);
+console.log('psd api data spewing from port ' + port);
