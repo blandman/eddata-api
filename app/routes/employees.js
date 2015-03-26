@@ -82,6 +82,9 @@ router.route('/v1/employees')
     } else if (qString.nakey) {
       var queryOne = Employee.find({ nalphakey: qString.nakey });
       var queryTwo = Employee.find({ nalphakey: qString.nakey });
+    } else if (qString.uname) {
+      var queryOne = Employee.find({ username: qString.uname });
+      var queryTwo = Employee.find({ username: qString.uname });
     } else if (qString.refresh) {
       var queryOne = Employee.find({ refreshAccount: qString.refresh });
       var queryTwo = Employee.find({ refreshAccount: qString.refresh });
