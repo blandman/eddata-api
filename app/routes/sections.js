@@ -77,9 +77,6 @@ router.route('/v1/sections')
     if (qString.ids) {
       var queryOne = Section.find({ id: { $in: qString.ids } });
       var queryTwo = Section.find({ id: { $in: qString.ids } });
-    } else if (qString.staffid) {
-      var queryOne = Section.find({ teacher.staffId: qString.staffid });
-      var queryTwo = Section.find({ teacher.staffId: qString.staffid });
     } else if (qString.bldg) {
       var queryOne = Section.find({ buildingStateCode: qString.bldg });
       var queryTwo = Section.find({ buildingStateCode: qString.bldg });

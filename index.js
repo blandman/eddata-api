@@ -70,6 +70,7 @@ app.use('/api', require('./app/routes/employees'));
 app.use('/api', require('./app/routes/auth'));
 app.use('/api', require('./app/routes/users'));
 app.use('/api', require('./app/routes/students'));
+app.use('/api', require('./app/routes/sections'));
 
 //error log configuration
 app.use(expressWinston.errorLogger({
