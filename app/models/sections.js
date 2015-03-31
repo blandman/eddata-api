@@ -16,9 +16,7 @@ var SectionSchema = new Schema({
   room: String,
   maxEnrollment: Number,
   courseCode: String,
-  teacher: {
-    staffID: Number
-  },
+  teachers: Array,
   firstDay: Date,
   lastDay: Date,
   refreshAccount: Boolean

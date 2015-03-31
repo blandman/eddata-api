@@ -28,7 +28,7 @@ router.route('/v1/sections')
     Section.findOne({psId: req.body.section.psId}, function (err, sct) {
       if (sct) {
         if (sct.expression == req.body.section.expression && sct.studentCount == req.body.section.studentCount 
-        && sct.room == req.body.section.room && sct.teacher.staffId == req.body.section.teacher.staffId) {
+        && sct.room == req.body.section.room && sct.teacher == req.body.section.teacher) {
           req.body.section.refreshAccount = false;
         } else {
           req.body.section.refreshAccount = true;
