@@ -71,6 +71,7 @@ app.use('/api', require('./app/routes/auth'));
 app.use('/api', require('./app/routes/users'));
 app.use('/api', require('./app/routes/students'));
 app.use('/api', require('./app/routes/sections'));
+app.use('/api', require('./app/routes/enrollments'));
 
 //error log configuration
 app.use(expressWinston.errorLogger({
