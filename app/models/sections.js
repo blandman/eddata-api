@@ -6,12 +6,12 @@ var passportLocalMongoose = require('passport-local-mongoose');
 
 var SectionSchema = new Schema({
   psId: Number,
-  buildingStateCode: Number,
+  buildingStateCode: String,
   courseName: String,
   expression: String,
-  sectionNumber: Number,
+  sectionNumber: String,
   courseNumber: String,
-  term: Number,
+  term: String,
   studentCount: Number,
   room: String,
   maxEnrollment: Number,

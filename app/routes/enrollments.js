@@ -27,7 +27,7 @@ router.route('/v1/enrollments')
   .put(passport.authenticate('bearer', { session: false }),function(req, res) {
     Enrollment.findOne({psId: req.body.enrollment.psId}, function (err, erm) {
       if (erm) {
-        if (erm.studentNumber == req.body.enrollment.studentNumber && erm.courseId == req.body.enrollment.courseId) {
+        if (erm.studentNumber == req.body.enrollment.studentNumber && erm.sectionId == req.body.enrollment.sectionId) {
           req.body.enrollment.refreshAccount = false;
         } else {
           req.body.enrollment.refreshAccount = true;
@@ -76,12 +76,15 @@ router.route('/v1/enrollments')
     if (qString.ids) {
       var queryOne = Enrollment.find({ id: { $in: qString.ids } });
       var queryTwo = Enrollment.find({ id: { $in: qString.ids } });
-    } else if (qString.cid) {
-      var queryOne = Enrollment.find({ courseId: qString.cid });
-      var queryOne = Enrollment.find({ courseId: qString.cid });
+    } else if (qString.secid) {
+      var queryOne = Enrollment.find({ sectionId: qString.secid });
+      var queryOne = Enrollment.find({ sectionId: qString.secid });
     } else if (qString.stunum) {
       var queryOne = Enrollment.find({ studentNumber: qString.stunum });
       var queryTwo = Enrollment.find({ studentNumber: qString.stunum });
+    } else if (qString.refresh) {
+      var queryOne = Employee.find({ refreshAccount: qString.refresh });
+      var queryTwo = Employee.find({ refreshAccount: qString.refresh });
     } else {
       var queryOne = Enrollment.find({});
       var queryTwo = Enrollment.find({});

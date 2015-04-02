@@ -7,7 +7,7 @@ var passportLocalMongoose = require('passport-local-mongoose');
 var EnrollmentSchema = new Schema({
   psId: Number,
   studentNumber: String,
-  courseId: Number,
+  sectionId: Number,
   refreshAccount: Boolean
 });
 

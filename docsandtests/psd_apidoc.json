@@ -6,7 +6,13 @@
     "title": "Peninsula SD API",
     "termsOfService": "http:\/\/api.psd401.net\/terms\/",
     "contact": {
-      "name": "hagelk@psd401.net"
+      "name": "PSD Technical Services",
+      "url": "https://opentech.psd401.net",
+      "email": "hagelk@psd401.net"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://raw.githubusercontent.com/psd401/psd-api/master/LICENSE"
     }
   },
   "host": "api2.psd401.net",
@@ -41,8 +47,47 @@
           }
         ],
         "responses": {
-          "405": {
-            "description": "Invalid input"
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#\/definitions\/Student"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Add a new student or update existing students in the database",
+        "description": "Looks up students by their nameId to do a comparison. Will update if they exist, otherwise will create new.",
+        "operationId": "addUpdateStudent",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Student object that needs to be added or updated in the database",
+            "required": false,
+            "schema": {
+              "$ref": "#\/definitions\/Student"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Student Not Found"
+          },
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#\/definitions\/Student"
+            }
           }
         }
       },
@@ -62,22 +107,39 @@
             "name": "offset",
             "description": "offset value for records returned",
             "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "type": "integer"
           },
           {
             "in": "query",
             "name": "limit",
             "description": "limit value for records returned",
             "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "ids",
+            "description": "array of ids to find a specific set of records",
+            "required": false,
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "integer"
             },
             "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "nakey",
+            "description": "student number search",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "refresh",
+            "description": "search for all accounts that need to be refreshed or not",
+            "required": false,
+            "type": "boolean"
           }
         ],
         "responses": {
@@ -90,8 +152,8 @@
               }
             }
           },
-          "400": {
-            "description": "Invalid limit or offset value"
+          "404": {
+            "description": "Students not found"
           }
         }
       }
@@ -126,9 +188,6 @@
             "schema": {
               "$ref": "#\/definitions\/Student"
             }
-          },
-          "400": {
-            "description": "Invalid ID supplied"
           }
         }
       },
@@ -149,7 +208,7 @@
           {
             "in": "body",
             "name": "body",
-            "description": "Student object that needs to be uupdated in the database",
+            "description": "Student object that needs to be updated in the database",
             "required": false,
             "schema": {
               "$ref": "#\/definitions\/Student"
@@ -157,14 +216,14 @@
           }
         ],
         "responses": {
-          "405": {
-            "description": "Validation exception"
-          },
           "404": {
             "description": "Student not found"
           },
-          "400": {
-            "description": "Invalid ID supplied"
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#\/definitions\/Student"
+            }
           }
         }
       },
@@ -187,12 +246,726 @@
             "type": "integer",
             "format": "int64"
           }
+        ]
+      }
+    },
+    "\/employees": {
+      "post": {
+        "tags": [
+          "employees"
+        ],
+        "summary": "Add a new employee to the database",
+        "description": "",
+        "operationId": "addEmployee",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Employee object that needs to be added to the database",
+            "required": false,
+            "schema": {
+              "$ref": "#\/definitions\/Employee"
+            }
+          }
         ],
         "responses": {
-          "400": {
-            "description": "Invalid student value"
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#\/definitions\/Employee"
+            }
           }
         }
+      },
+      "put": {
+        "tags": [
+          "employees"
+        ],
+        "summary": "Add a new employee or update existing employees in the database",
+        "description": "Looks up employees by their nameId to do a comparison. Will update if they exist, otherwise will create new.",
+        "operationId": "addUpdateEmployee",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Employee object that needs to be added or updated in the database",
+            "required": false,
+            "schema": {
+              "$ref": "#\/definitions\/Employee"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Employee Not Found"
+          },
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#\/definitions\/Employee"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "employees"
+        ],
+        "summary": "Finds All Employees",
+        "description": "",
+        "operationId": "findEmployees",
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "description": "offset value for records returned",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "limit value for records returned",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "ids",
+            "description": "array of ids to find a specific set of records",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "nakey",
+            "description": "employee number search",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "uname",
+            "description": "employee username search",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "refresh",
+            "description": "search for all accounts that need to be refreshed or not",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#\/definitions\/Employee"
+              }
+            }
+          },
+          "404": {
+            "description": "Employees not found"
+          }
+        }
+      }
+    },
+    "\/employees\/{id}": {
+      "get": {
+        "tags": [
+          "employees"
+        ],
+        "summary": "Find employee by ID",
+        "description": "",
+        "operationId": "getEmployeeById",
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ID of employee that needs to be fetched",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Employee not found"
+          },
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#\/definitions\/Employee"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "employees"
+        ],
+        "summary": "Update an existing employee",
+        "description": "",
+        "operationId": "updateEmployee",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Employee object that needs to be updated in the database",
+            "required": false,
+            "schema": {
+              "$ref": "#\/definitions\/Employee"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Employee not found"
+          },
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#\/definitions\/Employee"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "employees"
+        ],
+        "summary": "Deletes a employee",
+        "description": "",
+        "operationId": "deleteEmployee",
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Employee id to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ]
+      }
+    },
+    "\/sections": {
+      "post": {
+        "tags": [
+          "sections"
+        ],
+        "summary": "Add a new section to the database",
+        "description": "",
+        "operationId": "addSection",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Section object that needs to be added to the database",
+            "required": false,
+            "schema": {
+              "$ref": "#\/definitions\/Section"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#\/definitions\/Section"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "sections"
+        ],
+        "summary": "Add a new section or update existing sections in the database",
+        "description": "Looks up sections by their psId to do a comparison. Will update if they exist, otherwise will create new.",
+        "operationId": "addUpdateSection",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Section object that needs to be added or updated in the database",
+            "required": false,
+            "schema": {
+              "$ref": "#\/definitions\/Section"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Section Not Found"
+          },
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#\/definitions\/Section"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "sections"
+        ],
+        "summary": "Finds All Sections",
+        "description": "",
+        "operationId": "findSections",
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "description": "offset value for records returned",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "limit value for records returned",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "ids",
+            "description": "array of ids to find a specific set of records",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "bldg",
+            "description": "building number search",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "cnum",
+            "description": "course number search",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "snum",
+            "description": "section number search",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "teacher",
+            "description": "teacher id search to list all classes taught",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "refresh",
+            "description": "search for all accounts that need to be refreshed or not",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#\/definitions\/Section"
+              }
+            }
+          },
+          "404": {
+            "description": "Sections not found"
+          }
+        }
+      }
+    },
+    "\/sections\/{id}": {
+      "get": {
+        "tags": [
+          "sections"
+        ],
+        "summary": "Find section by ID",
+        "description": "",
+        "operationId": "getSectionById",
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ID of section that needs to be fetched",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Section not found"
+          },
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#\/definitions\/Section"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "sections"
+        ],
+        "summary": "Update an existing section",
+        "description": "",
+        "operationId": "updateSection",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Section object that needs to be updated in the database",
+            "required": false,
+            "schema": {
+              "$ref": "#\/definitions\/Section"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Section not found"
+          },
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#\/definitions\/Section"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "sections"
+        ],
+        "summary": "Deletes a section",
+        "description": "",
+        "operationId": "deleteSection",
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Section id to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ]
+      }
+    },
+    "\/enrollments": {
+      "post": {
+        "tags": [
+          "enrollments"
+        ],
+        "summary": "Add a new enrollment to the database",
+        "description": "",
+        "operationId": "addEnrollment",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Enrollment object that needs to be added to the database",
+            "required": false,
+            "schema": {
+              "$ref": "#\/definitions\/Enrollment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#\/definitions\/Enrollment"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "enrollments"
+        ],
+        "summary": "Add a new enrollment or update existing enrollments in the database",
+        "description": "Looks up enrollments by their psId to do a comparison. Will update if they exist, otherwise will create new.",
+        "operationId": "addUpdateEnrollment",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Enrollment object that needs to be added or updated in the database",
+            "required": false,
+            "schema": {
+              "$ref": "#\/definitions\/Enrollment"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Enrollment Not Found"
+          },
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#\/definitions\/Enrollment"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "enrollments"
+        ],
+        "summary": "Finds All Enrollments",
+        "description": "",
+        "operationId": "findEnrollments",
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "description": "offset value for records returned",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "limit value for records returned",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "ids",
+            "description": "array of ids to find a specific set of records",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "secid",
+            "description": "section id search",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "stunum",
+            "description": "student number search",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "refresh",
+            "description": "search for all accounts that need to be refreshed or not",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#\/definitions\/Enrollment"
+              }
+            }
+          },
+          "404": {
+            "description": "Enrollments not found"
+          }
+        }
+      }
+    },
+    "\/enrollments\/{id}": {
+      "get": {
+        "tags": [
+          "enrollments"
+        ],
+        "summary": "Find enrollment by ID",
+        "description": "",
+        "operationId": "getEnrollmentById",
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ID of enrollment that needs to be fetched",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Enrollment not found"
+          },
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#\/definitions\/Enrollment"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "enrollments"
+        ],
+        "summary": "Update an existing enrollment",
+        "description": "",
+        "operationId": "updateEnrollment",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Enrollment object that needs to be updated in the database",
+            "required": false,
+            "schema": {
+              "$ref": "#\/definitions\/Enrollment"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Enrollment not found"
+          },
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#\/definitions\/Enrollment"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "enrollments"
+        ],
+        "summary": "Deletes a enrollment",
+        "description": "",
+        "operationId": "deleteEnrollment",
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Enrollment id to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ]
       }
     }
   },
@@ -218,85 +991,641 @@
         },
         "nameId": {
           "type": "integer",
+          "description": "SIS Internal ID of the student",
           "xml": {
             "name": "nameId"
           }
         },
         "firstName": {
           "type": "string",
+          "description": "The first name of the student",
           "xml": {
             "name": "firstName"
           }
         },
         "lastName": {
           "type": "string",
+          "description": "The last name of the student",
           "xml": {
             "name": "lastName"
           }
         },
         "middleName": {
           "type": "string",
+          "description": "The middle name of the student",
           "xml": {
             "name": "middleName"
           }
         },
         "studentNumber": {
           "type": "string",
+          "description": "The primary student identifier of the student",
           "xml": {
             "name": "studentNumber"
           }
         },
         "enrollStatus": {
           "type": "string",
+          "description": "Enrollment status of the student",
           "xml": {
             "name": "enrollStatus"
           }
         },
         "gradeLevel": {
           "type": "integer",
+          "description": "Grade level which the student currently is enrolled in",
           "xml": {
             "name": "gradeLevel"
           }
         },
         "gender": {
           "type": "string",
+          "description": "Gender of the student",
           "xml": {
             "name": "gender"
           }
         },
         "birthdate": {
           "type": "date",
+          "description": "Student's date of birth",
           "xml": {
             "name": "birthdate"
           }
         },
         "street": {
           "type": "string",
+          "description": "Student's residence street address",
           "xml": {
             "name": "street"
           }
         },
         "city": {
           "type": "string",
+          "description": "Student's residence city",
           "xml": {
             "name": "city"
           }
         },
         "state": {
           "type": "string",
+          "description": "Student's residence state",
           "xml": {
             "name": "state"
           }
         },
         "zip": {
           "type": "string",
+          "description": "Student's residence zip code",
           "xml": {
             "name": "zip"
+          }
+        },
+        "guardianEmail": {
+          "type": "string",
+          "description": "Guardian email address string",
+          "xml": {
+            "name": "guardianEmail"
+          }
+        },"homePhone": {
+          "type": "string",
+          "description": "Primary home phone for the student",
+          "xml": {
+            "name": "homePhone"
+          }
+        },"stateStudentNumber": {
+          "type": "string",
+          "description": "State/Province id number for the student",
+          "xml": {
+            "name": "stateStudentNumber"
+          }
+        },"buildingStateCode": {
+          "type": "string",
+          "description": "ID of the primary school the student is enrolled in",
+          "xml": {
+            "name": "buildingStateCode"
+          }
+        },"buildingName": {
+          "type": "string",
+          "description": "School name the student is enrolled",
+          "xml": {
+            "name": "buildingName"
+          }
+        },"username": {
+          "type": "string",
+          "description": "Student network username",
+          "xml": {
+            "name": "username"
+          }
+        },"email": {
+          "type": "string",
+          "description": "Student email address",
+          "xml": {
+            "name": "email"
+          }
+        },"ethnicity": {
+          "type": "string",
+          "description": "Ethnicity of the student",
+          "xml": {
+            "name": "ethnicity"
+          }
+        },"entryDate": {
+          "type": "Date",
+          "description": "Date student entered the school/district",
+          "xml": {
+            "name": "entryDate"
+          }
+        },"exitDate": {
+          "type": "Date",
+          "description": "Date student exited the school/district",
+          "xml": {
+            "name": "exitDate"
+          }
+        },"expectedGradYear": {
+          "type": "number",
+          "description": "Year student is expected to graduate",
+          "xml": {
+            "name": "expectedGradYear"
+          }
+        },"primaryLanguage": {
+          "type": "string",
+          "description": "Primary language spoken by the student",
+          "xml": {
+            "name": "primaryLanguage"
+          }
+        },"mother": {
+          "type": "string",
+          "description": "Name of the student's mother",
+          "xml": {
+            "name": "mother"
+          }
+        },"motherHome": {
+          "type": "string",
+          "description": "Primary phone number for the student's mother",
+          "xml": {
+            "name": "motherHome"
+          }
+        },"father": {
+          "type": "string",
+          "description": "Name of the student's father",
+          "xml": {
+            "name": "father"
+          }
+        },"fatherHome": {
+          "type": "string",
+          "description": "Primary phone number for the student's father",
+          "xml": {
+            "name": "fatherHome"
+          }
+        },"ec1": {
+          "type": "string",
+          "description": "Name of the student's first emergency contact",
+          "xml": {
+            "name": "ec1"
+          }
+        },"ec1Relation": {
+          "type": "string",
+          "description": "Relationship of the student's first emergency contact",
+          "xml": {
+            "name": "ec1Relation"
+          }
+        },"ec1Phone": {
+          "type": "string",
+          "description": "Phone number of the student's first emergency contact",
+          "xml": {
+            "name": "ec1Phone"
+          }
+        },"ec2": {
+          "type": "string",
+          "description": "Name of the student's second emergency contact",
+          "xml": {
+            "name": "ec2"
+          }
+        },"ec2Relation": {
+          "type": "string",
+          "description": "Relationship of the student's second emergency contact",
+          "xml": {
+            "name": "ec2Relation"
+          }
+        },"ec2Phone": {
+          "type": "string",
+          "description": "Phone number of the student's second emeergency contact",
+          "xml": {
+            "name": "ec2Phone"
+          }
+        },"refreshAccount": {
+          "type": "boolean",
+          "description": "Boolean value showing whether new/updated data is present",
+          "xml": {
+            "name": "refreshAccount"
           }
         }
       },
       "xml": {
         "name": "StudentObject"
+      }
+    },
+    "Employee": {
+      "properties": {
+        "employee": {
+          "xml": {
+            "name": "employee"
+          },
+          "$ref": "EmployeeObject"
+        }
+      }
+    },
+    "EmployeeObject": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "xml": {
+            "name": "id"
+          }
+        },
+        "nameId": {
+          "type": "integer",
+          "description": "SIS Internal ID of the employee",
+          "xml": {
+            "name": "nameId"
+          }
+        },
+        "nalphakey": {
+          "type": "string",
+          "description": "Employee ID Number",
+          "xml": {
+            "name": "nalphakey"
+          }
+        },
+        "username": {
+          "type": "string",
+          "description": "Employee's network username",
+          "xml": {
+            "name": "username"
+          }
+        },
+        "startDate": {
+          "type": "date",
+          "description": "Employee's start date",
+          "xml": {
+            "name": "startDate"
+          }
+        },
+        "building": {
+          "type": "string",
+          "description": "EIS internal building id for pay location",
+          "xml": {
+            "name": "building"
+          }
+        },
+        "buildingStateCode": {
+          "type": "string",
+          "description": "Building code for pay location",
+          "xml": {
+            "name": "buildingStateCode"
+          }
+        },
+        "buildingName": {
+          "type": "string",
+          "description": "Name of the building that is the employee pay location",
+          "xml": {
+            "name": "buildingName"
+          }
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name of the employee",
+          "xml": {
+            "name": "firstName"
+          }
+        },
+        "middleName": {
+          "type": "string",
+          "description": "Middle name of the employee",
+          "xml": {
+            "name": "middleName"
+          }
+        },
+        "lastName": {
+          "type": "date",
+          "description": "Last name of the employee",
+          "xml": {
+            "name": "lastName"
+          }
+        },
+        "psdSSN": {
+          "type": "string",
+          "description": "PSD Four digit identifier number",
+          "xml": {
+            "name": "psdSSN"
+          }
+        },
+        "phone1": {
+          "type": "string",
+          "description": "Primary phone number",
+          "xml": {
+            "name": "phone1"
+          }
+        },
+        "phone2": {
+          "type": "string",
+          "description": "Secondary phone number",
+          "xml": {
+            "name": "phone2"
+          }
+        },
+        "phone3": {
+          "type": "string",
+          "description": "Employee's third possible phone number",
+          "xml": {
+            "name": "phone3"
+          }
+        },
+        "birthDate": {
+          "type": "date",
+          "description": "Employee date of birth",
+          "xml": {
+            "name": "birthDate"
+          }
+        },"gender": {
+          "type": "string",
+          "description": "Employee gender",
+          "xml": {
+            "name": "gender"
+          }
+        },"raceCode": {
+          "type": "string",
+          "description": "Employee's race",
+          "xml": {
+            "name": "raceCode"
+          }
+        },"streetDir": {
+          "type": "string",
+          "description": "Street direction of employee's residence",
+          "xml": {
+            "name": "streetDir"
+          }
+        },"streetNumber": {
+          "type": "string",
+          "description": "Street number of employee's residence",
+          "xml": {
+            "name": "streetNumber"
+          }
+        },"streetName": {
+          "type": "string",
+          "description": "Street name of employee's residence",
+          "xml": {
+            "name": "streetName"
+          }
+        },"streetApartment": {
+          "type": "string",
+          "description": "Street Apartment of employee's residence",
+          "xml": {
+            "name": "streetApartment"
+          }
+        },"poBox": {
+          "type": "string",
+          "description": "Post office box for employee",
+          "xml": {
+            "name": "poBox"
+          }
+        },"zipCode": {
+          "type": "string",
+          "description": "Zip/Postal code for employee",
+          "xml": {
+            "name": "zipCode"
+          }
+        },"zipPlus4": {
+          "type": "Date",
+          "description": "Extended Zip/Postal code",
+          "xml": {
+            "name": "zipPlus4"
+          }
+        },"city": {
+          "type": "number",
+          "description": "City of the employee's residence",
+          "xml": {
+            "name": "city"
+          }
+        },"state": {
+          "type": "string",
+          "description": "State of the employee's residence",
+          "xml": {
+            "name": "state"
+          }
+        },"workDays": {
+          "type": "string",
+          "description": "Contracted work days each year for this employee",
+          "xml": {
+            "name": "workDays"
+          }
+        },"certNumber": {
+          "type": "string",
+          "description": "Certification number of the employee",
+          "xml": {
+            "name": "certNumber"
+          }
+        },"title": {
+          "type": "string",
+          "description": "Job title for the employee",
+          "xml": {
+            "name": "title"
+          }
+        },"refreshAccount": {
+          "type": "string",
+          "description": "Boolean value showing whether new/updated data is present",
+          "xml": {
+            "name": "refreshAccount"
+          }
+        }
+      },
+      "xml": {
+        "name": "EmployeeObject"
+      }
+    },
+    "Section": {
+      "properties": {
+        "section": {
+          "xml": {
+            "name": "section"
+          },
+          "$ref": "SectionObject"
+        }
+      }
+    },
+    "SectionObject": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "xml": {
+            "name": "id"
+          }
+        },
+        "psId": {
+          "type": "string",
+          "description": "SIS Internal Section ID",
+          "xml": {
+            "name": "psId"
+          }
+        },
+        "buildingStateCode": {
+          "type": "string",
+          "description": "Building code for section location",
+          "xml": {
+            "name": "buildingStateCode"
+          }
+        },
+        "courseName": {
+          "type": "string",
+          "description": "Name of the course this section refers to",
+          "xml": {
+            "name": "courseName"
+          }
+        },
+        "sectionNumber": {
+          "type": "string",
+          "description": "Number of this section",
+          "xml": {
+            "name": "sectionNumber"
+          }
+        },
+        "expression": {
+          "type": "string",
+          "description": "Expression of period and track for this section",
+          "xml": {
+            "name": "expression"
+          }
+        },
+        "courseNumber": {
+          "type": "string",
+          "description": "Number of the course this section refers to",
+          "xml": {
+            "name": "courseNumber"
+          }
+        },
+        "term": {
+          "type": "string",
+          "description": "Term that this section is taking place in",
+          "xml": {
+            "name": "term"
+          }
+        },
+        "studentCount": {
+          "type": "integer",
+          "description": "Number of students enrolled in this section",
+          "xml": {
+            "name": "studentCount"
+          }
+        },
+        "room": {
+          "type": "string",
+          "description": "Room where this section takes place",
+          "xml": {
+            "name": "room"
+          }
+        },
+        "maxEnrollment": {
+          "type": "date",
+          "description": "The greatest number of students that can be enrolled in this section",
+          "xml": {
+            "name": "maxEnrollment"
+          }
+        },
+        "courseCode": {
+          "type": "string",
+          "description": "Code to match section to state requirements",
+          "xml": {
+            "name": "courseCode"
+          }
+        },
+        "teachers": {
+          "type": "array",
+          "description": "Array of employee ids corresponding to the teachers of the section",
+          "items": {
+            "type": "integer",
+            "collectionFormat": "csv"
+          },
+          "xml": {
+            "name": "teachers"
+          }
+        },
+        "firstDay": {
+          "type": "date",
+          "description": "First day this section takes place",
+          "xml": {
+            "name": "firstDay"
+          }
+        },
+        "lastDay": {
+          "type": "date",
+          "description": "Last day this section takes place",
+          "xml": {
+            "name": "lastDay"
+          }
+        },
+        "refreshAccount": {
+          "type": "boolean",
+          "description": "Boolean value showing whether new/updated data is present",
+          "xml": {
+            "name": "refreshAccount"
+          }
+        }
+      },
+      "xml": {
+        "name": "SectionObject"
+      }
+    },
+    "Enrollment": {
+      "properties": {
+        "enrollment": {
+          "xml": {
+            "name": "enrollment"
+          },
+          "$ref": "EnrollmentObject"
+        }
+      }
+    },
+    "EnrollmentObject": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "xml": {
+            "name": "id"
+          }
+        },
+        "psId": {
+          "type": "string",
+          "description": "SIS Internal Section ID",
+          "xml": {
+            "name": "psId"
+          }
+        },
+        "studentNumber": {
+          "type": "string",
+          "description": "Student number in this enrollment",
+          "xml": {
+            "name": "studentNumber"
+          }
+        },
+        "sectionId": {
+          "type": "integer",
+          "description": "Id of the section",
+          "xml": {
+            "name": "sectionId"
+          }
+        },
+        "refreshAccount": {
+          "type": "boolean",
+          "description": "Boolean value showing whether new/updated data is present",
+          "xml": {
+            "name": "refreshAccount"
+          }
+        }
+      },
+      "xml": {
+        "name": "SectionObject"
       }
     }
   }
