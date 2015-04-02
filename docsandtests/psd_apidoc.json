@@ -1,0 +1,303 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Peninsula SD Data API",
+    "version": "0.0.1",
+    "title": "Peninsula SD API",
+    "termsOfService": "http:\/\/api.psd401.net\/terms\/",
+    "contact": {
+      "name": "hagelk@psd401.net"
+    }
+  },
+  "host": "api2.psd401.net",
+  "basePath": "\/api\/v1",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "\/students": {
+      "post": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Add a new student to the database",
+        "description": "",
+        "operationId": "addStudent",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Student object that needs to be added to the database",
+            "required": false,
+            "schema": {
+              "$ref": "#\/definitions\/Student"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Finds All Students",
+        "description": "",
+        "operationId": "findStudents",
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "description": "offset value for records returned",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "limit value for records returned",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#\/definitions\/Student"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid limit or offset value"
+          }
+        }
+      }
+    },
+    "\/students\/{id}": {
+      "get": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Find student by ID",
+        "description": "",
+        "operationId": "getStudentById",
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ID of student that needs to be fetched",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Student not found"
+          },
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#\/definitions\/Student"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Update an existing student",
+        "description": "",
+        "operationId": "updateStudent",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Student object that needs to be uupdated in the database",
+            "required": false,
+            "schema": {
+              "$ref": "#\/definitions\/Student"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Validation exception"
+          },
+          "404": {
+            "description": "Student not found"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Deletes a student",
+        "description": "",
+        "operationId": "deleteStudent",
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Student id to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid student value"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Student": {
+      "properties": {
+        "student": {
+          "xml": {
+            "name": "student"
+          },
+          "$ref": "StudentObject"
+        }
+      }
+    },
+    "StudentObject": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "xml": {
+            "name": "id"
+          }
+        },
+        "nameId": {
+          "type": "integer",
+          "xml": {
+            "name": "nameId"
+          }
+        },
+        "firstName": {
+          "type": "string",
+          "xml": {
+            "name": "firstName"
+          }
+        },
+        "lastName": {
+          "type": "string",
+          "xml": {
+            "name": "lastName"
+          }
+        },
+        "middleName": {
+          "type": "string",
+          "xml": {
+            "name": "middleName"
+          }
+        },
+        "studentNumber": {
+          "type": "string",
+          "xml": {
+            "name": "studentNumber"
+          }
+        },
+        "enrollStatus": {
+          "type": "string",
+          "xml": {
+            "name": "enrollStatus"
+          }
+        },
+        "gradeLevel": {
+          "type": "integer",
+          "xml": {
+            "name": "gradeLevel"
+          }
+        },
+        "gender": {
+          "type": "string",
+          "xml": {
+            "name": "gender"
+          }
+        },
+        "birthdate": {
+          "type": "date",
+          "xml": {
+            "name": "birthdate"
+          }
+        },
+        "street": {
+          "type": "string",
+          "xml": {
+            "name": "street"
+          }
+        },
+        "city": {
+          "type": "string",
+          "xml": {
+            "name": "city"
+          }
+        },
+        "state": {
+          "type": "string",
+          "xml": {
+            "name": "state"
+          }
+        },
+        "zip": {
+          "type": "string",
+          "xml": {
+            "name": "zip"
+          }
+        }
+      },
+      "xml": {
+        "name": "StudentObject"
+      }
+    }
+  }
+}

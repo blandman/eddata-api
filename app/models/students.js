@@ -9,7 +9,7 @@ var StudentSchema = new Schema({
   firstName: String,
   lastName: String,
   middleName: String,
-  studentNumber: Number,
+  studentNumber: String,
   enrollStatus: String,
   gradeLevel: Number,
   gender: String,
