@@ -63,14 +63,14 @@
         }
       }
 
-      $('#input_apiKey').change(addApiKeyAuthorization);
-
-      // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
-      /*
-        var apiKey = "myApiKeyXXXX123456789";
-        $('#input_apiKey').val(apiKey);
-        addApiKeyAuthorization();
-      */
+      $('#input_apiKey').change(function() {
+        var key = $('#input_apiKey')[0].value;
+        if(key && key.trim() != "") {
+          key = "Bearer " + key
+          console.log(key)
+          swaggerUi.api.clientAuthorizations.add("key", new SwaggerClient.ApiKeyAuthorization("Authorization", key, "header"));
+        }
+      })
 
       window.swaggerUi.load();
 
