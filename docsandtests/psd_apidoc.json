@@ -1962,13 +1962,6 @@
     },
     "AuthObject": {
       "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64",
-          "xml": {
-            "name": "id"
-          }
-        },
         "username": {
           "type": "string",
           "description": "Username api user",
