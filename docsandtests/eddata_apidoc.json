@@ -12,7 +12,7 @@
     },
     "license": {
       "name": "MIT",
-      "url": "https://raw.githubusercontent.com/psd401/psd-api/master/LICENSE"
+      "url": "https://raw.githubusercontent.com/psd401/eddata-api/master/LICENSE"
     }
   },
   "host": "api2.psd401.net",
@@ -129,7 +129,7 @@
           },
           {
             "in": "query",
-            "name": "nakey",
+            "name": "stunum",
             "description": "student number search",
             "required": false,
             "type": "string"
@@ -1563,7 +1563,7 @@
           }
         },
         "lastName": {
-          "type": "date",
+          "type": "string",
           "description": "Last name of the employee",
           "xml": {
             "name": "lastName"
@@ -1597,7 +1597,7 @@
             "name": "phone3"
           }
         },
-        "birthDate": {
+        "birthdate": {
           "type": "date",
           "description": "Employee date of birth",
           "xml": {
@@ -1652,7 +1652,7 @@
             "name": "zipCode"
           }
         },"zipPlus4": {
-          "type": "Date",
+          "type": "string",
           "description": "Extended Zip/Postal code",
           "xml": {
             "name": "zipPlus4"
@@ -1670,7 +1670,7 @@
             "name": "state"
           }
         },"workDays": {
-          "type": "string",
+          "type": "integer",
           "description": "Contracted work days each year for this employee",
           "xml": {
             "name": "workDays"
@@ -1688,7 +1688,7 @@
             "name": "title"
           }
         },"refreshAccount": {
-          "type": "string",
+          "type": "boolean",
           "description": "Boolean value showing whether new/updated data is present",
           "xml": {
             "name": "refreshAccount"
@@ -1782,7 +1782,7 @@
           }
         },
         "maxEnrollment": {
-          "type": "date",
+          "type": "integer",
           "description": "The greatest number of students that can be enrolled in this section",
           "xml": {
             "name": "maxEnrollment"
