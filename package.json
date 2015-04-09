@@ -1,6 +1,6 @@
 {
   "name": "eddata-api",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "api server code for peninsula school district public and private api",
   "main": "index.js",
   "scripts": {

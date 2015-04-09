@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "description": "Peninsula SD Data API",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "title": "Peninsula SD API",
     "termsOfService": "http:\/\/api.psd401.net\/terms\/",
     "contact": {
