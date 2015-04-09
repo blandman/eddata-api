@@ -1719,7 +1719,7 @@
           }
         },
         "psId": {
-          "type": "string",
+          "type": "integer",
           "description": "SIS Internal Section ID",
           "xml": {
             "name": "psId"
@@ -1852,7 +1852,7 @@
           }
         },
         "psId": {
-          "type": "string",
+          "type": "integer",
           "description": "SIS Internal Section ID",
           "xml": {
             "name": "psId"
