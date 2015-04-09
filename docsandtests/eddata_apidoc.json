@@ -1,12 +1,12 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "Peninsula SD Data API",
+    "description": "EdData API is a secure open source api server that schools can use to create integrations between edtech vendors of their choosing, and also a common api for developers to write their applications against",
     "version": "1.0.0",
-    "title": "Peninsula SD API",
+    "title": "EdData API",
     "termsOfService": "http:\/\/api.psd401.net\/terms\/",
     "contact": {
-      "name": "PSD Technical Services",
+      "name": "PSD Technical Services Team",
       "url": "https://opentech.psd401.net",
       "email": "hagelk@psd401.net"
     },
