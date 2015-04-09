@@ -80,9 +80,9 @@ router.route('/v1/students')
     if (qString.ids) {
       var queryOne = Student.find({ id: { $in: qString.ids } });
       var queryTwo = Student.find({ id: { $in: qString.ids } });
-    } else if (qString.nakey) {
-      var queryOne = Student.find({ studentNumber: qString.nakey });
-      var queryTwo = Student.find({ studentNumber: qString.nakey });
+    } else if (qString.stunum) {
+      var queryOne = Student.find({ studentNumber: qString.stunum });
+      var queryTwo = Student.find({ studentNumber: qString.stunum });
     } else if (qString.refresh) {
       var queryOne = Student.find({ refreshAccount: qString.refresh });
       var queryTwo = Student.find({ refreshAccount: qString.refresh });
