@@ -371,6 +371,13 @@
           },
           {
             "in": "query",
+            "name": "lname",
+            "description": "employee last name search",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
             "name": "refresh",
             "description": "search for all accounts that need to be refreshed or not",
             "required": false,

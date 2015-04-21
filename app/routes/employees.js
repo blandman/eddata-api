@@ -85,6 +85,9 @@ router.route('/v1/employees')
     } else if (qString.uname) {
       var queryOne = Employee.find({ username: qString.uname });
       var queryTwo = Employee.find({ username: qString.uname });
+    } else if (qString.lname) {
+      var queryOne = Employee.find({ lastName: qString.lname });
+      var queryTwo = Employee.find({ lastName: qString.lname });
     } else if (qString.refresh) {
       var queryOne = Employee.find({ refreshAccount: qString.refresh });
       var queryTwo = Employee.find({ refreshAccount: qString.refresh });
