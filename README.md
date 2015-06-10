@@ -1,5 +1,5 @@
 EdData-API
-=======
+==========
 
 EdData API is a first step at beginning to develop a secure open source api server that schools can use to create integrations between edtech vendors of their choosing, and also a common api for developers to write their applications against.
 
