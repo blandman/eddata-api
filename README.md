@@ -22,7 +22,7 @@ In the address box on this site, you can enter the following url to reach the lo
 ###Issues
 Please use the issue tracker for this project to submit any issues you have and also suggest any changes you think should be made.
 
-##Upcoming Additions
+###Upcoming Additions
 
 Computers
 Rooms
