@@ -2307,7 +2307,7 @@
           }
         },
         "serialNumber": {
-          "type": "date",
+          "type": "string",
           "description": "Vendor serial number of the computer",
           "xml": {
             "name": "serialNumber"

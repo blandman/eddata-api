@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({
 //set custom powered-by header
 app.use(function customHeaders( req, res, next ){
   app.disable( 'x-powered-by' );
-  res.setHeader( 'X-Powered-By', 'Peninsula SD API v0.0.1' );
+  res.setHeader( 'X-Powered-By', 'Ed Data API v1.1.0' );
   next();
 });
 
@@ -72,6 +72,7 @@ app.use('/api', require('./app/routes/users'));
 app.use('/api', require('./app/routes/students'));
 app.use('/api', require('./app/routes/sections'));
 app.use('/api', require('./app/routes/enrollments'));
+app.use('/api', require('./app/routes/computers'));
 
 //error log configuration
 app.use(expressWinston.errorLogger({
@@ -93,4 +94,4 @@ process.on('SIGINT', function() {
 // START THE SERVER
 // =============================================================================
 app.listen(port);
-console.log('psd api data spewing from port ' + port);
+console.log('eddata api data spewing from port ' + port);

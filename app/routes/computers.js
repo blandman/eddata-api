@@ -8,7 +8,10 @@ var passport = require('passport');
 router.route('/v1/computers')
 
   .post(passport.authenticate('bearer', { session: false }),function(req, res) {
+    console.log('where is my stuff');
     var computer = new Computer(req.body.computer);
+    console.log("data should be next");
+    console.log(computer);
     computer.save(function (err, obj) {
       if(err) 
         res.send(err);

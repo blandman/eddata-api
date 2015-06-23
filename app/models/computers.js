@@ -20,8 +20,7 @@ var ComputerSchema = new Schema({
   room: String,
   serialNumber: String,
   vendor: String,
-  warrantyExpires: Date,
-  raceCode: String,
+  warrantyExpiration: Date,
   lastIpAddress: String,
   currentUser: String,
   previousUsers: Array
