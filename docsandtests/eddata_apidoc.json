@@ -1196,6 +1196,241 @@
         ]
       }
     },
+    "\/computers": {
+      "post": {
+        "tags": [
+          "computers"
+        ],
+        "summary": "Add a new computer to the database",
+        "description": "",
+        "operationId": "addComputer",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Computer object that needs to be added to the database",
+            "required": false,
+            "schema": {
+              "$ref": "#\/definitions\/Computer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#\/definitions\/Computer"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "computers"
+        ],
+        "summary": "Add a new computer or update existing computers in the database",
+        "description": "Looks up computers by their snum(serialNumber) to do a comparison. Will update if they exist, otherwise will create new.",
+        "operationId": "addUpdateComputer",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Computer object that needs to be added or updated in the database",
+            "required": false,
+            "schema": {
+              "$ref": "#\/definitions\/Computer"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Computer Not Found"
+          },
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#\/definitions\/Computer"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "computers"
+        ],
+        "summary": "Finds All Computers",
+        "description": "",
+        "operationId": "findComputers",
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "offset",
+            "description": "offset value for records returned",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "limit value for records returned",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "ids",
+            "description": "array of ids to find a specific set of records",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "in": "query",
+            "name": "snum",
+            "description": "serial number search",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "user",
+            "description": "last logged on user search",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "ip",
+            "description": "ip address search",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#\/definitions\/Computer"
+              }
+            }
+          },
+          "404": {
+            "description": "Computers not found"
+          }
+        }
+      }
+    },
+    "\/computers\/{id}": {
+      "get": {
+        "tags": [
+          "computers"
+        ],
+        "summary": "Find computer by ID",
+        "description": "",
+        "operationId": "getComputerById",
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ID of computer that needs to be fetched",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Computer not found"
+          },
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#\/definitions\/Computer"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "computers"
+        ],
+        "summary": "Update an existing computer",
+        "description": "",
+        "operationId": "updateComputer",
+        "consumes": [
+          "application\/json"
+        ],
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Computer object that needs to be updated in the database",
+            "required": false,
+            "schema": {
+              "$ref": "#\/definitions\/Computer"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Computer not found"
+          },
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#\/definitions\/Computer"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "computers"
+        ],
+        "summary": "Deletes a computer",
+        "description": "",
+        "operationId": "deleteComputer",
+        "produces": [
+          "application\/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Computer id to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ]
+      }
+    },
     "\/auth\/login": {
       "post": {
         "tags": [
@@ -1955,6 +2190,171 @@
       },
       "xml": {
         "name": "UserObject"
+      }
+    },
+    "Computer": {
+      "properties": {
+        "computer": {
+          "xml": {
+            "name": "computer"
+          },
+          "$ref": "ComputerObject"
+        }
+      }
+    },
+    "ComputerObject": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "xml": {
+            "name": "id"
+          }
+        },
+        "barcode": {
+          "type": "string",
+          "description": "PSD barcode attached to computer",
+          "xml": {
+            "name": "barcode"
+          }
+        },
+        "deviceModel": {
+          "type": "string",
+          "description": "Model name for the computer",
+          "xml": {
+            "name": "deviceModel"
+          }
+        },
+        "groups": {
+          "type": "array",
+          "description": "Array of groups used for ad or configuration software",
+          "items": {
+            "type": "integer",
+            "collectionFormat": "csv"
+          },
+          "xml": {
+            "name": "groups"
+          }
+        },
+        "hardDrive": {
+          "type": "string",
+          "description": "Description of the hard drive(s) installed in the computer",
+          "xml": {
+            "name": "hardDrive"
+          }
+        },
+        "lastInventory": {
+          "type": "date",
+          "description": "Last date the inventory was updated",
+          "xml": {
+            "name": "lastInventory"
+          }
+        },
+        "location": {
+          "type": "string",
+          "description": "Location (bldg) where this computer is assigned",
+          "xml": {
+            "name": "location"
+          }
+        },
+        "manufacturer": {
+          "type": "string",
+          "description": "Manufacturer of the computer",
+          "xml": {
+            "name": "manufacturer"
+          }
+        },
+        "name": {
+          "type": "string",
+          "description": "Computer name",
+          "xml": {
+            "name": "name"
+          }
+        },
+        "notes": {
+          "type": "string",
+          "description": "Misc. notes about the computer",
+          "xml": {
+            "name": "notes"
+          }
+        },
+        "processor": {
+          "type": "string",
+          "description": "Info on the processor installed in the computer",
+          "xml": {
+            "name": "processor"
+          }
+        },
+        "purchaseDate": {
+          "type": "date",
+          "description": "Date computer was purchased",
+          "xml": {
+            "name": "purchaseDate"
+          }
+        },
+        "ram": {
+          "type": "integer",
+          "description": "Amount of RAM installed in the computer",
+          "xml": {
+            "name": "ram"
+          }
+        },
+        "room": {
+          "type": "string",
+          "description": "Room where this computer is assigned",
+          "xml": {
+            "name": "room"
+          }
+        },
+        "serialNumber": {
+          "type": "date",
+          "description": "Vendor serial number of the computer",
+          "xml": {
+            "name": "serialNumber"
+          }
+        },
+        "vendor": {
+          "type": "string",
+          "description": "Vendor which computer was purchased from",
+          "xml": {
+            "name": "vendor"
+          }
+        },
+        "warrantyExpiration": {
+          "type": "date",
+          "description": "Date when the warranty expires on this computer",
+          "xml": {
+            "name": "warrantyExpiration"
+          }
+        },
+        "lastIpAddress": {
+          "type": "string",
+          "description": "Last known IP address for this computer",
+          "xml": {
+            "name": "lastIpAddress"
+          }
+        },
+        "currentUser": {
+          "type": "string",
+          "description": "Last logged in user of this computer",
+          "xml": {
+            "name": "currentUser"
+          }
+        },
+        "previousUsers": {
+          "type": "array",
+          "description": "Array of users who have previously used this computer",
+          "items": {
+            "type": "integer",
+            "collectionFormat": "csv"
+          },
+          "xml": {
+            "name": "previousUsers"
+          }
+        }
+      },
+      "xml": {
+        "name": "ComputerObject"
       }
     },
     "Auth": {
