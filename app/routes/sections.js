@@ -84,8 +84,8 @@ router.route('/v1/sections')
       var queryOne = Section.find({ buildingStateCode: qString.bldg });
       var queryTwo = Section.find({ buildingStateCode: qString.bldg });
     } else if (qString.teacher) {
-      var queryOne = Section.find({ teachers: { $in: qString.teacher } });
-      var queryTwo = Section.find({ teachers: { $in: qString.teacher } });
+      var queryOne = Section.find({ teachers: qString.teacher });
+      var queryTwo = Section.find({ teachers: qString.teacher });
     } else if (qString.refresh) {
       var queryOne = Section.find({ refreshAccount: qString.refresh });
       var queryTwo = Section.find({ refreshAccount: qString.refresh });
