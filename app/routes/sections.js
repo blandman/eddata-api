@@ -87,7 +87,6 @@ router.route('/v1/sections')
       console.log("it is hitting this search term")
       var queryOne = Section.find({ teachers: qString.teacher });
       var queryTwo = Section.find({ teachers: qString.teacher });
-      console.log(queryOne)
     } else if (qString.refresh) {
       var queryOne = Section.find({ refreshAccount: qString.refresh });
       var queryTwo = Section.find({ refreshAccount: qString.refresh });
@@ -113,6 +112,7 @@ router.route('/v1/sections')
       if(err)
         res.send(err);
       if (results) {
+        console.log(results)
         var next = utils.pageNext(offset,limit,results.count,'sections');
         var prev = utils.pagePrev(offset,limit,results.count,'sections');
         var data = {
