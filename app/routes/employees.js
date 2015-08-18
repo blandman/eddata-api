@@ -30,7 +30,8 @@ router.route('/v1/employees')
         if (emp.nalphakey == req.body.employee.nalphakey && emp.firstName == req.body.employee.firstName 
         && emp.middleName == req.body.employee.middleName && emp.lastName == req.body.employee.lastName
         && emp.building == req.body.employee.building && emp.psdSSN == req.body.employee.psdSSN
-        && emp.title == req.body.employee.title && emp.username == req.body.employee.username) {
+        && emp.title == req.body.employee.title && emp.username == req.body.employee.username
+        && emp.badgeNumber == req.body.employee.badgeNumber) {
           req.body.employee.refreshAccount = false;
         } else {
           req.body.employee.refreshAccount = true;

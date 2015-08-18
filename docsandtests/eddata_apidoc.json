@@ -1929,6 +1929,12 @@
           "xml": {
             "name": "title"
           }
+        },"badgeNumber": {
+          "type": "string",
+          "description": "Access card assigned to the employee",
+          "xml": {
+            "name": "title"
+          }
         },"refreshAccount": {
           "type": "boolean",
           "description": "Boolean value showing whether new/updated data is present",
