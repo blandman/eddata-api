@@ -27,10 +27,10 @@ router.route('/v1/students')
   .put(passport.authenticate('bearer', { session: false }),function(req, res) {
     Student.findOne({nameId: req.body.student.nameId}, function (err, stu) {
       if (stu) {
-        if (stu.studentNumber == req.body.student.studentNumber && stu.firstName == req.body.student.firstName 
-        && stu.middleName == req.body.student.middleName && stu.lastName == req.body.student.lastName
-        && stu.buildingStateCode == req.body.student.buildingStateCode && stu.enrollStatus == req.body.student.enrollStatus
-        && stu.gradeLevel == req.body.student.gradeLevel && stu.username == req.body.student.username
+        if (stu.studentNumber == String(req.body.student.studentNumber) && stu.firstName == String(req.body.student.firstName) 
+        && stu.middleName == String(req.body.student.middleName) && stu.lastName == String(req.body.student.lastName)
+        && stu.buildingStateCode == String(req.body.student.buildingStateCode) && stu.enrollStatus == String(req.body.student.enrollStatus)
+        && stu.gradeLevel == String(req.body.student.gradeLevel) && stu.username == String(req.body.student.username)
         && stu.birthdate == req.body.student.birthdate) {
           req.body.student.refreshAccount = false;
         } else {
