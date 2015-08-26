@@ -35,6 +35,33 @@ router.route('/v1/students')
           req.body.student.refreshAccount = false;
         } else {
           req.body.student.refreshAccount = true;
+          if (String(stu.studentNumber) != String(req.body.student.studentNumber)) {
+            console.log("studentNumber mismatch")
+          }
+          if (String(stu.firstName) != String(req.body.student.firstName)) {
+            console.log("firstName mismatch")
+          }
+          if (String(stu.middleName) != String(req.body.student.middleName)) {
+            console.log("middleName mismatch")
+          }
+          if (String(stu.lastName) != String(req.body.student.lastName)) {
+            console.log("lastName mismatch")
+          }
+          if (String(stu.buildingStateCode) != String(req.body.student.buildingStateCode)) {
+            console.log("buildingStateCode mismatch")
+          }
+          if (String(stu.enrollStatus) != String(req.body.student.enrollStatus)) {
+            console.log("enrollStatus mismatch")
+          }
+          if (String(stu.gradeLevel) != String(req.body.student.gradeLevel)) {
+            console.log("gradeLevel mismatch")
+          }
+          if (String(stu.username) != String(req.body.student.username)) {
+            console.log("username mismatch")
+          }
+          if (stu.birthdate != req.body.student.birthdate) {
+            console.log("birthdate mismatch")
+          }
         }
         var now = new Date().getTime();
         req.body.student.updatedAt = now;
