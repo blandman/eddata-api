@@ -11,7 +11,7 @@ var StudentSchema = new Schema({
   middleName: String,
   studentNumber: String,
   enrollStatus: String,
-  gradeLevel: Number,
+  gradeLevel: String,
   gender: String,
   birthdate: Date,
   street: String,
