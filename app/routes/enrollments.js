@@ -78,7 +78,7 @@ router.route('/v1/enrollments')
       var queryTwo = Enrollment.find({ id: { $in: qString.ids } });
     } else if (qString.secid) {
       var queryOne = Enrollment.find({ sectionId: qString.secid });
-      var queryOne = Enrollment.find({ sectionId: qString.secid });
+      var queryTwo = Enrollment.find({ sectionId: qString.secid });
     } else if (qString.stunum) {
       var queryOne = Enrollment.find({ studentNumber: qString.stunum });
       var queryTwo = Enrollment.find({ studentNumber: qString.stunum });
