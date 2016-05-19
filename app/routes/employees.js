@@ -118,7 +118,7 @@ router.route('/v1/employees')
             callback(null, items);
           });
         } else {
-          queryTwo.skip(offset).select('-_id id firstName lastName buildingName username title').limit(limit).exec('find', function(err, items) {
+          queryTwo.skip(offset).select('-_id id firstName lastName buildingName buildingStateCode username title').limit(limit).exec('find', function(err, items) {
             callback(null, items);
           });
         }
