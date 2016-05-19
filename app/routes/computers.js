@@ -29,6 +29,10 @@ router.route('/v1/computers')
   })
 
   .put(passport.authenticate('bearer', { session: false }),function(req, res) {
+    if(req.user.user_type != "Administrator") {
+      res.send(403,JSON.stringify({"error": "insufficientPermission"}));
+      return;
+    }
     Computer.findOne({serialNumber: req.body.computer.serialNumber}, function (err, sct) {
       if (sct) {
         var now = new Date().getTime();
@@ -148,6 +152,10 @@ router.route('/v1/computers/:id')
   })
 
   .put(passport.authenticate('bearer', { session: false }),function(req, res) {
+    if(req.user.user_type != "Administrator") {
+      res.send(403,JSON.stringify({"error": "insufficientPermission"}));
+      return;
+    }
     var now = new Date().getTime();
     req.body.computer.updatedAt = now;
     Computer.findOneAndUpdate({id: req.params.id}, {$set: req.body.computer}, function(err,computer) {
@@ -170,6 +178,10 @@ router.route('/v1/computers/:id')
   })
 
   .delete(passport.authenticate('bearer', { session: false }),function(req, res) {
+    if(req.user.user_type != "Administrator") {
+      res.send(403,JSON.stringify({"error": "insufficientPermission"}));
+      return;
+    }
     Computer.remove({id: req.params.id}, function(err, computer) {
       if (err)
         res.send(err);
