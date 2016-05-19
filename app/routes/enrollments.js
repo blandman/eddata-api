@@ -7,7 +7,7 @@ var passport = require('passport');
 
 router.route('/v1/enrollments')
 
-  .post(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .post(function(req, res) {
     var enrollment = new Enrollment(req.body.enrollment);
     enrollment.save(function (err, obj) {
       if(err) 
@@ -24,7 +24,7 @@ router.route('/v1/enrollments')
     });
   })
 
-  .put(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .put(function(req, res) {
     Enrollment.findOne({psId: req.body.enrollment.psId}, function (err, erm) {
       if (erm) {
         if (erm.studentNumber == req.body.enrollment.studentNumber && erm.sectionId == req.body.enrollment.sectionId) {
@@ -71,7 +71,7 @@ router.route('/v1/enrollments')
     });
   })
 
-  .get(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .get(function(req, res) {
     if(req.user.user_type != "Administrator") {
       res.send(403,JSON.stringify({"error": "insufficientPermission"}));
       return;
@@ -133,7 +133,7 @@ router.route('/v1/enrollments')
 
 router.route('/v1/enrollments/:id')
 
-  .get(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .get(function(req, res) {
     if(req.user.user_type != "Administrator") {
       res.send(403,JSON.stringify({"error": "insufficientPermission"}));
       return;
@@ -157,7 +157,7 @@ router.route('/v1/enrollments/:id')
     });
   })
 
-  .put(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .put(function(req, res) {
     var now = new Date().getTime();
     req.body.enrollment.updatedAt = now;
     Enrollment.findOneAndUpdate({id: req.params.id}, {$set: req.body.enrollment}, function(err,enrollment) {
@@ -179,7 +179,7 @@ router.route('/v1/enrollments/:id')
     });
   })
 
-  .delete(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .delete(function(req, res) {
     Enrollment.remove({id: req.params.id}, function(err, enrollment) {
       if (err)
         res.send(err);

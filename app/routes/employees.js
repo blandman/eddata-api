@@ -24,7 +24,7 @@ router.route('/v1/employees')
     });
   })
 
-  .put(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .put(function(req, res) {
     Employee.findOne({nameId: req.body.employee.nameId}, function (err, emp) {
       if (emp) {
         if (emp.nalphakey == req.body.employee.nalphakey && emp.firstName == req.body.employee.firstName 
@@ -75,7 +75,7 @@ router.route('/v1/employees')
     });
   })
 
-  .get(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .get(function(req, res) {
     var qString = req.query;
     if (qString.ids) {
       var queryOne = Employee.find({ id: { $in: qString.ids } });
@@ -171,7 +171,7 @@ router.route('/v1/employees/:id')
     });
   })
 
-  .put(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .put(function(req, res) {
     var now = new Date().getTime();
     req.body.employee.updatedAt = now;
     Employee.findOneAndUpdate({id: req.params.id}, {$set: req.body.employee}, function(err,employee) {
@@ -193,7 +193,7 @@ router.route('/v1/employees/:id')
     });
   })
 
-  .delete(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .delete(function(req, res) {
     Employee.remove({id: req.params.id}, function(err, employee) {
       if (err)
         res.send(err);
