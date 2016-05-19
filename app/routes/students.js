@@ -106,9 +106,15 @@ router.route('/v1/students')
         });
       },
       records: function(callback){
-        queryTwo.skip(offset).select('-_id -__v -salt -hash').limit(limit).exec('find', function(err, items) {
-          callback(null, items);
-        });
+        if(req.user.user_type == "Administrator") { 
+          queryTwo.skip(offset).select('-_id -__v -salt -hash').limit(limit).exec('find', function(err, items) {
+            callback(null, items);
+          });
+        } else {
+          queryTwo.skip(offset).select('-_id id firstName lastName buildingName buildingStateCode username gradeLevel').limit(limit).exec('find', function(err, items) {
+            callback(null, items);
+          });
+        }
       }
     },
     function(err, results) {
@@ -144,6 +150,17 @@ router.route('/v1/students/:id')
       if (obj) {
         obj._id = undefined;
         obj.__v = undefined;
+        if(req.user.user_type != "Administrator") {
+          obj = {
+            id: obj.id,
+            username: obj.username,
+            firstName: obj.firstName,
+            lastName: obj.lastName,
+            buildingName: obj.buildingName,
+            buildingStateCode: obj.buildingStateCode,
+            gradeLevel: obj.gradeLevel
+          };
+        }
         var data = {
           "student": obj,
           "meta": {
