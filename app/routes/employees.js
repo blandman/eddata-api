@@ -7,11 +7,7 @@ var passport = require('passport');
 
 router.route('/v1/employees')
 
-  .post(passport.authenticate('bearer', { session: false }),function(req, res) {
-    if(req.user.user_type != "Administrator") {
-      res.send(403,JSON.stringify({"error": "insufficientPermission"}));
-      return;
-    }
+  .post(function(req, res) {
     var employee = new Employee(req.body.employee);
     employee.save(function (err, obj) {
       if(err) 
@@ -29,10 +25,6 @@ router.route('/v1/employees')
   })
 
   .put(passport.authenticate('bearer', { session: false }),function(req, res) {
-    if(req.user.user_type != "Administrator") {
-      res.send(403,JSON.stringify({"error": "insufficientPermission"}));
-      return;
-    }
     Employee.findOne({nameId: req.body.employee.nameId}, function (err, emp) {
       if (emp) {
         if (emp.nalphakey == req.body.employee.nalphakey && emp.firstName == req.body.employee.firstName 
@@ -149,7 +141,7 @@ router.route('/v1/employees')
   })
 
 router.route('/v1/employees/:id')
-  .get(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .get(function(req, res) {
     Employee.findOne({id: req.params.id}, function(err, obj) {
       if (err)
         res.send(err);
@@ -180,10 +172,6 @@ router.route('/v1/employees/:id')
   })
 
   .put(passport.authenticate('bearer', { session: false }),function(req, res) {
-    if(req.user.user_type != "Administrator") {
-      res.send(403,JSON.stringify({"error": "insufficientPermission"}));
-      return;
-    }
     var now = new Date().getTime();
     req.body.employee.updatedAt = now;
     Employee.findOneAndUpdate({id: req.params.id}, {$set: req.body.employee}, function(err,employee) {
@@ -206,10 +194,6 @@ router.route('/v1/employees/:id')
   })
 
   .delete(passport.authenticate('bearer', { session: false }),function(req, res) {
-    if(req.user.user_type != "Administrator") {
-      res.send(403,JSON.stringify({"error": "insufficientPermission"}));
-      return;
-    }
     Employee.remove({id: req.params.id}, function(err, employee) {
       if (err)
         res.send(err);

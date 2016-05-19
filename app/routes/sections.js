@@ -8,10 +8,6 @@ var passport = require('passport');
 router.route('/v1/sections')
 
   .post(passport.authenticate('bearer', { session: false }),function(req, res) {
-    if(req.user.user_type != "Administrator") {
-      res.send(403,JSON.stringify({"error": "insufficientPermission"}));
-      return;
-    }
     var section = new Section(req.body.section);
     section.save(function (err, obj) {
       if(err) 
@@ -29,10 +25,6 @@ router.route('/v1/sections')
   })
 
   .put(passport.authenticate('bearer', { session: false }),function(req, res) {
-    if(req.user.user_type != "Administrator") {
-      res.send(403,JSON.stringify({"error": "insufficientPermission"}));
-      return;
-    }
     Section.findOne({psId: req.body.section.psId}, function (err, sct) {
       if (sct) {
         if (sct.expression == req.body.section.expression && sct.studentCount == req.body.section.studentCount 
@@ -172,10 +164,6 @@ router.route('/v1/sections/:id')
   })
 
   .put(passport.authenticate('bearer', { session: false }),function(req, res) {
-    if(req.user.user_type != "Administrator") {
-      res.send(403,JSON.stringify({"error": "insufficientPermission"}));
-      return;
-    }
     var now = new Date().getTime();
     req.body.section.updatedAt = now;
     Section.findOneAndUpdate({id: req.params.id}, {$set: req.body.section}, function(err,section) {
@@ -198,10 +186,6 @@ router.route('/v1/sections/:id')
   })
 
   .delete(passport.authenticate('bearer', { session: false }),function(req, res) {
-    if(req.user.user_type != "Administrator") {
-      res.send(403,JSON.stringify({"error": "insufficientPermission"}));
-      return;
-    }
     Section.remove({id: req.params.id}, function(err, section) {
       if (err)
         res.send(err);
