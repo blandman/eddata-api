@@ -68,7 +68,6 @@ require('./app/config/passport')(passport);
 app.use('/api', require('./app/routes/auth'));
 
 app.use(passport.authenticate('bearer', { session: false }), function(req, res, next){
-  console.log(req);
   if(req.url != "/v1/api/auth/login") {
     if(req.method == "POST" || req.method == "PUT" || req.method == "DELETE") {
       if(req.user.user_type != "Administrator") {
