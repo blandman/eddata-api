@@ -8,10 +8,11 @@ var passport = require('passport');
 router.route('/v1/computers')
 
   .post(passport.authenticate('bearer', { session: false }),function(req, res) {
-    console.log('where is my stuff');
+    if(req.user.user_type != "Administrator") {
+      res.send(403,JSON.stringify({"error": "insufficientPermission"}));
+      return;
+    }
     var computer = new Computer(req.body.computer);
-    console.log("data should be next");
-    console.log(computer);
     computer.save(function (err, obj) {
       if(err) 
         res.send(err);

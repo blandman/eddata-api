@@ -8,6 +8,10 @@ var passport = require('passport');
 router.route('/v1/employees')
 
   .post(passport.authenticate('bearer', { session: false }),function(req, res) {
+    if(req.user.user_type != "Administrator") {
+      res.send(403,JSON.stringify({"error": "insufficientPermission"}));
+      return;
+    }
     var employee = new Employee(req.body.employee);
     employee.save(function (err, obj) {
       if(err) 
@@ -25,6 +29,10 @@ router.route('/v1/employees')
   })
 
   .put(passport.authenticate('bearer', { session: false }),function(req, res) {
+    if(req.user.user_type != "Administrator") {
+      res.send(403,JSON.stringify({"error": "insufficientPermission"}));
+      return;
+    }
     Employee.findOne({nameId: req.body.employee.nameId}, function (err, emp) {
       if (emp) {
         if (emp.nalphakey == req.body.employee.nalphakey && emp.firstName == req.body.employee.firstName 
@@ -105,9 +113,15 @@ router.route('/v1/employees')
         });
       },
       records: function(callback){
-        queryTwo.skip(offset).select('-_id -__v -salt -hash').limit(limit).exec('find', function(err, items) {
-          callback(null, items);
-        });
+        if(req.user.user_type == "Administrator") {
+          queryTwo.skip(offset).select('-_id -__v -salt -hash').limit(limit).exec('find', function(err, items) {
+            callback(null, items);
+          });
+        } else {
+          queryTwo.skip(offset).select('-_id id firstName lastName buildingName username title').limit(limit).exec('find', function(err, items) {
+            callback(null, items);
+          });
+        }
       }
     },
     function(err, results) {
@@ -135,7 +149,6 @@ router.route('/v1/employees')
   })
 
 router.route('/v1/employees/:id')
-
   .get(passport.authenticate('bearer', { session: false }),function(req, res) {
     Employee.findOne({id: req.params.id}, function(err, obj) {
       if (err)
@@ -143,6 +156,16 @@ router.route('/v1/employees/:id')
       if (obj) {
         obj._id = undefined;
         obj.__v = undefined;
+        if(req.user.user_type != "Administrator") {
+          obj = {
+            id: obj.id,
+            username: obj.username,
+            firstName: obj.firstName,
+            lastName: obj.lastName,
+            buildingName: obj.buildingName,
+            title: obj.title
+          };
+        }
         var data = {
           "employee": obj,
           "meta": {
@@ -157,6 +180,10 @@ router.route('/v1/employees/:id')
   })
 
   .put(passport.authenticate('bearer', { session: false }),function(req, res) {
+    if(req.user.user_type != "Administrator") {
+      res.send(403,JSON.stringify({"error": "insufficientPermission"}));
+      return;
+    }
     var now = new Date().getTime();
     req.body.employee.updatedAt = now;
     Employee.findOneAndUpdate({id: req.params.id}, {$set: req.body.employee}, function(err,employee) {
@@ -179,6 +206,10 @@ router.route('/v1/employees/:id')
   })
 
   .delete(passport.authenticate('bearer', { session: false }),function(req, res) {
+    if(req.user.user_type != "Administrator") {
+      res.send(403,JSON.stringify({"error": "insufficientPermission"}));
+      return;
+    }
     Employee.remove({id: req.params.id}, function(err, employee) {
       if (err)
         res.send(err);
