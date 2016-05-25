@@ -30,7 +30,7 @@ router.route('/v1/users')
     });
   })
 
-  .get(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .get(function(req, res) {
     var qString = req.query;
     if (qString.ids) {
       var queryOne = User.find({ id: { $in: qString.ids } });
@@ -81,8 +81,8 @@ router.route('/v1/users')
   })
 
 router.route('/v1/users/:id')
+  .get(function(req, res) {
 
-  .get(passport.authenticate('bearer', { session: false }),function(req, res) {
     User.findOne({id: req.params.id}, function(err, obj) {
       if (err)
         res.send(err);
@@ -102,7 +102,7 @@ router.route('/v1/users/:id')
     });
   })
 
-  .put(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .put(function(req, res) {
     var now = new Date().getTime();
     req.body.user.updatedAt = now;
     User.findOneAndUpdate({id: req.params.id}, {$set: req.body.user}, function(err,user) {
@@ -146,7 +146,7 @@ router.route('/v1/users/:id')
     });
   })
 
-  .delete(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .delete(function(req, res) {
     User.remove({id: req.params.id}, function(err, user) {
       if (err)
         res.send(err);
