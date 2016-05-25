@@ -7,11 +7,8 @@ var passport = require('passport');
 
 router.route('/v1/computers')
 
-  .post(passport.authenticate('bearer', { session: false }),function(req, res) {
-    console.log('where is my stuff');
+  .post(function(req, res) {
     var computer = new Computer(req.body.computer);
-    console.log("data should be next");
-    console.log(computer);
     computer.save(function (err, obj) {
       if(err) 
         res.send(err);
@@ -27,7 +24,7 @@ router.route('/v1/computers')
     });
   })
 
-  .put(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .put(function(req, res) {
     Computer.findOne({serialNumber: req.body.computer.serialNumber}, function (err, sct) {
       if (sct) {
         var now = new Date().getTime();
@@ -68,7 +65,7 @@ router.route('/v1/computers')
     });
   })
 
-  .get(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .get(function(req, res) {
     var qString = req.query;
     if (qString.ids) {
       var queryOne = Computer.find({ id: { $in: qString.ids } });
@@ -126,7 +123,7 @@ router.route('/v1/computers')
 
 router.route('/v1/computers/:id')
 
-  .get(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .get(function(req, res) {
     Computer.findOne({id: req.params.id}, function(err, obj) {
       if (err)
         res.send(err);
@@ -146,7 +143,7 @@ router.route('/v1/computers/:id')
     });
   })
 
-  .put(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .put(function(req, res) {
     var now = new Date().getTime();
     req.body.computer.updatedAt = now;
     Computer.findOneAndUpdate({id: req.params.id}, {$set: req.body.computer}, function(err,computer) {
@@ -168,7 +165,7 @@ router.route('/v1/computers/:id')
     });
   })
 
-  .delete(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .delete(function(req, res) {
     Computer.remove({id: req.params.id}, function(err, computer) {
       if (err)
         res.send(err);

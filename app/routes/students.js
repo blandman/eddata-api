@@ -7,7 +7,7 @@ var passport = require('passport');
 
 router.route('/v1/students')
 
-  .post(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .post(function(req, res) {
     var student = new Student(req.body.student);
     student.save(function (err, obj) {
       if(err) 
@@ -24,7 +24,7 @@ router.route('/v1/students')
     });
   })
 
-  .put(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .put(function(req, res) {
     Student.findOne({nameId: req.body.student.nameId}, function (err, stu) {
       if (stu) {
         if (String(stu.studentNumber) == String(req.body.student.studentNumber) && String(stu.firstName) == String(req.body.student.firstName) 
@@ -74,7 +74,7 @@ router.route('/v1/students')
     });
   })
 
-  .get(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .get(function(req, res) {
     var qString = req.query;
     if (qString.ids) {
       var queryOne = Student.find({ id: { $in: qString.ids } });
@@ -98,9 +98,15 @@ router.route('/v1/students')
         });
       },
       records: function(callback){
-        queryTwo.skip(offset).select('-_id -__v -salt -hash').limit(limit).exec('find', function(err, items) {
-          callback(null, items);
-        });
+        if(req.user.user_type == "Administrator") { 
+          queryTwo.skip(offset).select('-_id -__v -salt -hash').limit(limit).exec('find', function(err, items) {
+            callback(null, items);
+          });
+        } else {
+          queryTwo.skip(offset).select('-_id id firstName lastName buildingName buildingStateCode username gradeLevel').limit(limit).exec('find', function(err, items) {
+            callback(null, items);
+          });
+        }
       }
     },
     function(err, results) {
@@ -129,13 +135,24 @@ router.route('/v1/students')
 
 router.route('/v1/students/:id')
 
-  .get(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .get(function(req, res) {
     Student.findOne({id: req.params.id}, function(err, obj) {
       if (err)
         res.send(err);
       if (obj) {
         obj._id = undefined;
         obj.__v = undefined;
+        if(req.user.user_type != "Administrator") {
+          obj = {
+            id: obj.id,
+            username: obj.username,
+            firstName: obj.firstName,
+            lastName: obj.lastName,
+            buildingName: obj.buildingName,
+            buildingStateCode: obj.buildingStateCode,
+            gradeLevel: obj.gradeLevel
+          };
+        }
         var data = {
           "student": obj,
           "meta": {
@@ -149,7 +166,7 @@ router.route('/v1/students/:id')
     });
   })
 
-  .put(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .put(function(req, res) {
     var now = new Date().getTime();
     req.body.student.updatedAt = now;
     Student.findOneAndUpdate({id: req.params.id}, {$set: req.body.student}, function(err,student) {
@@ -171,7 +188,7 @@ router.route('/v1/students/:id')
     });
   })
 
-  .delete(passport.authenticate('bearer', { session: false }),function(req, res) {
+  .delete(function(req, res) {
     Student.remove({id: req.params.id}, function(err, student) {
       if (err)
         res.send(err);

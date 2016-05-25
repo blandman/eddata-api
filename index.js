@@ -70,10 +70,24 @@ autoIncrement.initialize(db);
 app.use(passport.initialize());
 require('./app/config/passport')(passport);
 
+//Import the auth plugin before requireing passport middleware
+app.use('/api', require('./app/routes/auth'));
+
+app.use(passport.authenticate('bearer', { session: false }), function(req, res, next){
+  if(req.url != "/v1/api/auth/login") {
+    if(req.method == "POST" || req.method == "PUT" || req.method == "DELETE") {
+      if(req.user.user_type != "Administrator") {
+        res.send(403,JSON.stringify({"error": "insufficientPermission"}));
+        return;
+      }
+    }
+  }
+  next();
+});
+
 // REGISTER ALL THE ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use('/api', require('./app/routes/employees'));
-app.use('/api', require('./app/routes/auth'));
 app.use('/api', require('./app/routes/users'));
 app.use('/api', require('./app/routes/students'));
 app.use('/api', require('./app/routes/sections'));
