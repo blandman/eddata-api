@@ -35,8 +35,7 @@ router.route('/v1/enrollments')
         var now = new Date().getTime();
         req.body.enrollment.updatedAt = now;
         Enrollment.findOneAndUpdate({psId: req.body.enrollment.psId}, {$set: req.body.enrollment}, function(err,enrollment) {
-          if (err) 
-            res.send(err);
+          if (err) { return next(err); }
           if (enrollment) {
             enrollment._id = undefined;
             enrollment.__v = undefined;
@@ -55,8 +54,7 @@ router.route('/v1/enrollments')
         req.body.enrollment.refreshAccount = true;
         var enrollment = new Enrollment(req.body.enrollment);
         enrollment.save(function (err, obj) {
-          if(err) 
-            res.send(err);
+          if (err) { return next(err); }
           obj._id = undefined;
           obj.__v = undefined;
           var data = {
@@ -108,8 +106,7 @@ router.route('/v1/enrollments')
       }
     },
     function(err, results) {
-      if(err)
-        res.send(err);
+      if (err) { return next(err); }
       if (results) {
         var next = utils.pageNext(offset,limit,results.count,'enrollments');
         var prev = utils.pagePrev(offset,limit,results.count,'enrollments');
@@ -139,8 +136,7 @@ router.route('/v1/enrollments/:id')
       return;
     }
     Enrollment.findOne({id: req.params.id}, function(err, obj) {
-      if (err)
-        res.send(err);
+      if (err) { return next(err); }
       if (obj) {
         obj._id = undefined;
         obj.__v = undefined;
@@ -161,8 +157,7 @@ router.route('/v1/enrollments/:id')
     var now = new Date().getTime();
     req.body.enrollment.updatedAt = now;
     Enrollment.findOneAndUpdate({id: req.params.id}, {$set: req.body.enrollment}, function(err,enrollment) {
-      if (err) 
-        res.send(err);
+      if (err) { return next(err); }
       if (enrollment) {
         enrollment._id = undefined;
         enrollment.__v = undefined;
@@ -181,8 +176,7 @@ router.route('/v1/enrollments/:id')
 
   .delete(function(req, res) {
     Enrollment.remove({id: req.params.id}, function(err, enrollment) {
-      if (err)
-        res.send(err);
+      if (err) { return next(err); }
       res.json(enrollment);
     });
   });

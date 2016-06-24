@@ -1,0 +1,8 @@
+eddata:
+        image: eddata-api
+        container_name: eddata-api
+        ports:
+          - 8079:8079
+        log_driver: gelf
+        log_opt:
+          gelf-address: "udp://10.0.70.22:12201"

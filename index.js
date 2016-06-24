@@ -10,7 +10,13 @@ var passport = require('passport');
 
 //variables for use in winston logging
 var myLogTransports = [];
-myLogTransports.push(new (winston.transports.Console)({ json: true, colorize: true, dumpExceptions: true, showStack: true, timestamp: true }));
+myLogTransports.push(new (winston.transports.Console)({ 
+  json: true, 
+  colorize: true, 
+  dumpExceptions: true, 
+  showStack: true, 
+  timestamp: true 
+}));
 
 //log file configuration
 app.use(expressWinston.logger({
