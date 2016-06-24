@@ -44,7 +44,8 @@ router.route('/v1/students')
           req.body.student.refreshAccount = true;
 
           var differentValues = _.differenceWith(_.toPairs(req.body.student), _.toPairs(stu._doc), _.isMatch);
-          var differentComparison = {message: "Employee Changed", username: stu.username}
+          
+          var differentComparison = {message: "Student Changed", username: stu.username}
           
           _.forEach(differentValues, function(values){
             if(values[0] in stu._doc && values[0] in req.body.student) {
