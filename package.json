@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "",
-    "start": "NODE_ENV=development MONGO_URL=mongodb://localhost/psdapi API_URL=http://localhost:8079 TOKEN_SECRET=whatsTheSecretKey? nodemon index.js"
+    "start": "NODE_ENV=development MONGO_URL=mongodb://mongo/psdapi API_URL=http://localhost:8079 TOKEN_SECRET=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiU2VydmljZSBBY2NvdW50IC0gUGFzc3dvcmQgUmVzZXQiLCJlbWFpbCI6ImhhZ2Vsa0Bwc2Q0MDEubmV0In0.R0AG1_UsqIiPycqfrLeGrN0vFVjDPjbHqB0pHVzNm1w nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
     "express": "^4.12.3",
     "express-winston": "^0.2.12",
     "jwt-simple": "^0.2.0",
+    "lodash": "^4.13.1",
     "mongoose": "3.8.22",
     "mongoose-auto-increment": "3.2.2",
     "mongoose-timestamp": "0.4.0",
