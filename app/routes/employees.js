@@ -4,6 +4,14 @@ var router = express.Router();
 var utils = require('../utils');
 var async = require('async');
 var passport = require('passport');
+var _ = require('lodash');
+var winston = require('winston');
+
+var logger = new (winston.Logger)({
+  transports: [
+    new (winston.transports.Console)({ json: true, colorize: true, dumpExceptions: true, showStack: true, timestamp: true })
+  ]
+});
 
 router.route('/v1/employees')
 
@@ -35,6 +43,19 @@ router.route('/v1/employees')
           req.body.employee.refreshAccount = false;
         } else {
           req.body.employee.refreshAccount = true;
+          
+          var differentValues = _.differenceWith(_.toPairs(req.body.employee), _.toPairs(emp._doc), _.isMatch);
+          var differentComparison = {message: "Employee Changed"}
+          
+          _.forEach(differentValues, function(values){
+            if(values[0] in emp._doc && values[0] in req.body.employee) {
+              differentComparison[values[0]] = {
+                old: emp._doc[values[0]],
+                new: req.body.employee[values[0]]
+              };
+            }
+          });
+          logger.info(differentComparison);
         }
         var now = new Date().getTime();
         req.body.employee.updatedAt = now;
