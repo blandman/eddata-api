@@ -85,6 +85,8 @@ router.route('/v1/students')
             res.send(err);
           obj._id = undefined;
           obj.__v = undefined;
+          var newUserLog = {message: "Student Created", username: obj.username, student: obj}
+          logger.info(newUserLog);
           var data = {
             "student": obj,
             "meta": {

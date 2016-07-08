@@ -90,6 +90,8 @@ router.route('/v1/employees')
               "href": process.env.API_URL + '/api/v1/employees/' + obj.id
             }
           }
+          var newUserLog = {message: "Employee Created", username: obj.username, employee: obj}
+          logger.info(newUserLog);
           res.json(data);
         });
       }
