@@ -42,21 +42,6 @@ router.route('/v1/students')
           req.body.student.refreshAccount = false;
         } else {
           req.body.student.refreshAccount = true;
-
-          var differentValues = _.differenceWith(_.toPairs(req.body.student), _.toPairs(stu._doc), _.isMatch);
-          
-          var differentComparison = {message: "Student Changed", username: stu.username}
-          
-          _.forEach(differentValues, function(values){
-            if(values[0] in stu._doc && values[0] in req.body.student) {
-              differentComparison[values[0]] = {
-                old: stu._doc[values[0]],
-                new: req.body.student[values[0]]
-              };
-            }
-          });
-          logger.info(differentComparison);
-
         }
         var now = new Date().getTime();
         req.body.student.updatedAt = now;
@@ -72,6 +57,22 @@ router.route('/v1/students')
                 "href": process.env.API_URL + '/api/v1/students/' + stu.id
               }
             }
+            if(req.body.student.refreshAccount) {
+              var differentValues = _.differenceWith(_.toPairs(req.body.student), _.toPairs(stu._doc), _.isMatch);
+          
+              var differentComparison = {message: "Student Changed", username: stu.username, student: student}
+                
+              _.forEach(differentValues, function(values){
+                if(values[0] in stu._doc && values[0] in req.body.student) {
+                  differentComparison[values[0]] = {
+                    old: stu._doc[values[0]],
+                    new: req.body.student[values[0]]
+                  };
+                }
+              });
+              logger.info(differentComparison);
+            }
+
             res.send(data);
           } else {
             res.send(404,JSON.stringify({"error": "studentNotFound"}));
