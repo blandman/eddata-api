@@ -29,7 +29,7 @@ router.route('/v1/students')
         }
       }
 
-      var newUserLog = {message: "Student Created", username: obj.username, student: obj._doc}
+      var newUserLog = {message: "Student Created", newUsername: obj.username, student: obj._doc}
       logger.info(newUserLog);
       res.json(data);
     });
@@ -65,7 +65,7 @@ router.route('/v1/students')
             if(shouldUpdate) {
               var differentValues = _.differenceWith(_.toPairs(req.body.student), _.toPairs(stu._doc), _.isMatch);
           
-              var differentComparison = {message: "Student Changed", username: stu.username, student: student._doc}
+              var differentComparison = {message: "Student Changed", changedUsername: stu.username, student: student._doc}
                 
               _.forEach(differentValues, function(values){
                 if(values[0] in stu._doc && values[0] in req.body.student) {
@@ -91,7 +91,7 @@ router.route('/v1/students')
             res.send(err);
           obj._id = undefined;
           obj.__v = undefined;
-          var newUserLog = {message: "Student Created", username: obj.username, student: obj._doc}
+          var newUserLog = {message: "Student Created", newUsername: obj.username, student: obj._doc}
           logger.info(newUserLog);
           var data = {
             "student": obj,
