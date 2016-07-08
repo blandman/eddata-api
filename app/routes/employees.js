@@ -43,19 +43,6 @@ router.route('/v1/employees')
           req.body.employee.refreshAccount = false;
         } else {
           req.body.employee.refreshAccount = true;
-          
-          var differentValues = _.differenceWith(_.toPairs(req.body.employee), _.toPairs(emp._doc), _.isMatch);
-          var differentComparison = {message: "Employee Changed", username: emp.username}
-          
-          _.forEach(differentValues, function(values){
-            if(values[0] in emp._doc && values[0] in req.body.employee) {
-              differentComparison[values[0]] = {
-                old: emp._doc[values[0]],
-                new: req.body.employee[values[0]]
-              };
-            }
-          });
-          logger.info(differentComparison);
         }
         var now = new Date().getTime();
         req.body.employee.updatedAt = now;
@@ -71,6 +58,21 @@ router.route('/v1/employees')
                 "href": process.env.API_URL + '/api/v1/employees/' + emp.id
               }
             }
+            if(req.body.employee.refreshAccount){
+              var differentValues = _.differenceWith(_.toPairs(req.body.employee), _.toPairs(emp._doc), _.isMatch);
+              var differentComparison = {message: "Employee Changed", username: emp.username, employee: employee}
+              
+              _.forEach(differentValues, function(values){
+                if(values[0] in emp._doc && values[0] in req.body.employee) {
+                  differentComparison[values[0]] = {
+                    old: emp._doc[values[0]],
+                    new: req.body.employee[values[0]]
+                  };
+                }
+              });
+              logger.info(differentComparison);
+            }
+
             res.send(data);
           } else {
             res.send(404,JSON.stringify({"error": "employeeNotFound"}));
