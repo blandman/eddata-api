@@ -35,14 +35,17 @@ router.route('/v1/employees')
   .put(function(req, res) {
     Employee.findOne({nameId: req.body.employee.nameId}, function (err, emp) {
       if (emp) {
+        var shouldUpdate = false;
         if (emp.nalphakey == req.body.employee.nalphakey && emp.firstName == req.body.employee.firstName 
         && emp.middleName == req.body.employee.middleName && emp.lastName == req.body.employee.lastName
-        && emp.building == req.body.employee.building && emp.buildingName == req.body.employee.buildingName && emp.buildingStateCode == req.body.employee.buildingStateCode && emp.psdSSN == req.body.employee.psdSSN
+        && emp.building == req.body.employee.building && emp.buildingName == req.body.employee.buildingName && emp.buildingStateCode == req.body.employee.buildingStateCode 
+        && emp.psdSSN == req.body.employee.psdSSN
         && emp.title == req.body.employee.title && emp.username == req.body.employee.username
         && emp.badgeNumber == req.body.employee.badgeNumber) {
           req.body.employee.refreshAccount = false;
         } else {
           req.body.employee.refreshAccount = true;
+          shouldUpdate = true;
         }
         var now = new Date().getTime();
         req.body.employee.updatedAt = now;
@@ -58,7 +61,7 @@ router.route('/v1/employees')
                 "href": process.env.API_URL + '/api/v1/employees/' + emp.id
               }
             }
-            if(req.body.employee.refreshAccount){
+            if(shouldUpdate){
               var differentValues = _.differenceWith(_.toPairs(req.body.employee), _.toPairs(emp._doc), _.isMatch);
               var differentComparison = {message: "Employee Changed", username: emp.username, employee: employee}
               

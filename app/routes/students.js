@@ -35,6 +35,7 @@ router.route('/v1/students')
   .put(function(req, res) {
     Student.findOne({nameId: req.body.student.nameId}, function (err, stu) {
       if (stu) {
+        var shouldUpdate = false;
         if (String(stu.studentNumber) == String(req.body.student.studentNumber) && String(stu.firstName) == String(req.body.student.firstName) 
         && String(stu.middleName) == String(req.body.student.middleName) && String(stu.lastName) == String(req.body.student.lastName)
         && String(stu.buildingStateCode) == String(req.body.student.buildingStateCode) && String(stu.enrollStatus) == String(req.body.student.enrollStatus)
@@ -42,6 +43,7 @@ router.route('/v1/students')
           req.body.student.refreshAccount = false;
         } else {
           req.body.student.refreshAccount = true;
+          shouldUpdate = true;
         }
         var now = new Date().getTime();
         req.body.student.updatedAt = now;
@@ -57,7 +59,7 @@ router.route('/v1/students')
                 "href": process.env.API_URL + '/api/v1/students/' + stu.id
               }
             }
-            if(req.body.student.refreshAccount) {
+            if(shouldUpdate) {
               var differentValues = _.differenceWith(_.toPairs(req.body.student), _.toPairs(stu._doc), _.isMatch);
           
               var differentComparison = {message: "Student Changed", username: stu.username, student: student}
