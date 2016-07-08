@@ -28,6 +28,8 @@ router.route('/v1/employees')
           "href": process.env.API_URL + '/api/v1/employees/' + obj.id
         }
       }
+      var newUserLog = {message: "Employee Created", username: obj.username, employee: obj._doc}
+          logger.info(newUserLog);
       res.json(data);
     });
   })
@@ -63,7 +65,7 @@ router.route('/v1/employees')
             }
             if(shouldUpdate){
               var differentValues = _.differenceWith(_.toPairs(req.body.employee), _.toPairs(emp._doc), _.isMatch);
-              var differentComparison = {message: "Employee Changed", username: emp.username, employee: employee}
+              var differentComparison = {message: "Employee Changed", username: emp.username, employee: employee._doc}
               
               _.forEach(differentValues, function(values){
                 if(values[0] in emp._doc && values[0] in req.body.employee) {
@@ -95,7 +97,7 @@ router.route('/v1/employees')
               "href": process.env.API_URL + '/api/v1/employees/' + obj.id
             }
           }
-          var newUserLog = {message: "Employee Created", username: obj.username, employee: obj}
+          var newUserLog = {message: "Employee Created", username: obj.username, employee: obj._doc}
           logger.info(newUserLog);
           res.json(data);
         });
