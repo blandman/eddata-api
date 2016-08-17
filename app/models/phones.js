@@ -15,9 +15,9 @@ var passportLocalMongoose = require('passport-local-mongoose');
 var PhoneSchema = new Schema({
 	building: { type: Number, ref: "Building" },
 
-	extension: Number
+	extension: Number,
 
-	displayName: String
+	displayName: String,
 	macAddress: String,
 	room: {type: Number, ref: "Room"}
 });
