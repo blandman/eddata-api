@@ -134,7 +134,7 @@ router.route('/v1/students')
             callback(null, items);
           });
         } else {
-          queryTwo.skip(offset).select('-_id id firstName lastName buildingName buildingStateCode username gradeLevel').limit(limit).exec('find', function(err, items) {
+          queryTwo.skip(offset).select('-_id id firstName lastName buildingName buildingStateCode username gradeLevel pictureUrl').limit(limit).exec('find', function(err, items) {
             callback(null, items);
           });
         }
@@ -181,7 +181,8 @@ router.route('/v1/students/:id')
             lastName: obj.lastName,
             buildingName: obj.buildingName,
             buildingStateCode: obj.buildingStateCode,
-            gradeLevel: obj.gradeLevel
+            gradeLevel: obj.gradeLevel,
+            pictureUrl: obj.pictureUrl
           };
         }
         var data = {
