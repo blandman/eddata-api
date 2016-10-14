@@ -34,7 +34,7 @@ var EmployeeSchema = new Schema({
   workDays: Number,
   certNumber: String,
   title: String,
-  badgeNumber: String,
+  badgeNumber: Number,
   refreshAccount: Boolean,
   pictureUrl: String
 });
