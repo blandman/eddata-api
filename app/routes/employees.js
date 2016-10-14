@@ -28,6 +28,8 @@ router.route('/v1/employees')
           "href": process.env.API_URL + '/api/v1/employees/' + obj.id
         }
       }
+      var newUserLog = {message: "Employee Created", newUsername: obj.username, employee: obj._doc}
+          logger.info(newUserLog);
       res.json(data);
     });
   })
@@ -35,27 +37,17 @@ router.route('/v1/employees')
   .put(function(req, res) {
     Employee.findOne({nameId: req.body.employee.nameId}, function (err, emp) {
       if (emp) {
+        var shouldUpdate = false;
         if (emp.nalphakey == req.body.employee.nalphakey && emp.firstName == req.body.employee.firstName 
         && emp.middleName == req.body.employee.middleName && emp.lastName == req.body.employee.lastName
-        && emp.building == req.body.employee.building && emp.psdSSN == req.body.employee.psdSSN
+        && emp.building == req.body.employee.building && emp.buildingName == req.body.employee.buildingName && emp.buildingStateCode == req.body.employee.buildingStateCode 
+        && emp.psdSSN == req.body.employee.psdSSN
         && emp.title == req.body.employee.title && emp.username == req.body.employee.username
         && emp.badgeNumber == req.body.employee.badgeNumber) {
           req.body.employee.refreshAccount = false;
         } else {
           req.body.employee.refreshAccount = true;
-          
-          var differentValues = _.differenceWith(_.toPairs(req.body.employee), _.toPairs(emp._doc), _.isMatch);
-          var differentComparison = {message: "Employee Changed", username: emp.username}
-          
-          _.forEach(differentValues, function(values){
-            if(values[0] in emp._doc && values[0] in req.body.employee) {
-              differentComparison[values[0]] = {
-                old: emp._doc[values[0]],
-                new: req.body.employee[values[0]]
-              };
-            }
-          });
-          logger.info(differentComparison);
+          shouldUpdate = true;
         }
         var now = new Date().getTime();
         req.body.employee.updatedAt = now;
@@ -71,6 +63,21 @@ router.route('/v1/employees')
                 "href": process.env.API_URL + '/api/v1/employees/' + emp.id
               }
             }
+            if(shouldUpdate){
+              var differentValues = _.differenceWith(_.toPairs(req.body.employee), _.toPairs(emp._doc), _.isMatch);
+              var differentComparison = {message: "Employee Changed", changedUsername: emp.username, employee: employee._doc}
+              
+              _.forEach(differentValues, function(values){
+                if(values[0] in emp._doc && values[0] in req.body.employee) {
+                  differentComparison[values[0]] = {
+                    old: emp._doc[values[0]],
+                    new: req.body.employee[values[0]]
+                  };
+                }
+              });
+              logger.info(differentComparison);
+            }
+
             res.send(data);
           } else {
             res.send(404,JSON.stringify({"error": "employeeNotFound"}));
@@ -90,6 +97,8 @@ router.route('/v1/employees')
               "href": process.env.API_URL + '/api/v1/employees/' + obj.id
             }
           }
+          var newUserLog = {message: "Employee Created", newUsername: obj.username, employee: obj._doc}
+          logger.info(newUserLog);
           res.json(data);
         });
       }
@@ -131,7 +140,7 @@ router.route('/v1/employees')
             callback(null, items);
           });
         } else {
-          queryTwo.skip(offset).select('-_id id firstName lastName buildingName buildingStateCode username title').limit(limit).exec('find', function(err, items) {
+          queryTwo.skip(offset).select('-_id id firstName lastName buildingName buildingStateCode username title pictureUrl').limit(limit).exec('find', function(err, items) {
             callback(null, items);
           });
         }
@@ -176,7 +185,8 @@ router.route('/v1/employees/:id')
             firstName: obj.firstName,
             lastName: obj.lastName,
             buildingName: obj.buildingName,
-            title: obj.title
+            title: obj.title,
+            pictureUrl: obj.pictureUrl
           };
         }
         var data = {

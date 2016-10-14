@@ -28,6 +28,9 @@ router.route('/v1/students')
           "href": process.env.API_URL + '/api/v1/students/' + obj.id
         }
       }
+
+      var newUserLog = {message: "Student Created", newUsername: obj.username, student: obj._doc}
+      logger.info(newUserLog);
       res.json(data);
     });
   })
@@ -35,6 +38,7 @@ router.route('/v1/students')
   .put(function(req, res) {
     Student.findOne({nameId: req.body.student.nameId}, function (err, stu) {
       if (stu) {
+        var shouldUpdate = false;
         if (String(stu.studentNumber) == String(req.body.student.studentNumber) && String(stu.firstName) == String(req.body.student.firstName) 
         && String(stu.middleName) == String(req.body.student.middleName) && String(stu.lastName) == String(req.body.student.lastName)
         && String(stu.buildingStateCode) == String(req.body.student.buildingStateCode) && String(stu.enrollStatus) == String(req.body.student.enrollStatus)
@@ -42,21 +46,7 @@ router.route('/v1/students')
           req.body.student.refreshAccount = false;
         } else {
           req.body.student.refreshAccount = true;
-
-          var differentValues = _.differenceWith(_.toPairs(req.body.student), _.toPairs(stu._doc), _.isMatch);
-          
-          var differentComparison = {message: "Student Changed", username: stu.username}
-          
-          _.forEach(differentValues, function(values){
-            if(values[0] in stu._doc && values[0] in req.body.student) {
-              differentComparison[values[0]] = {
-                old: stu._doc[values[0]],
-                new: req.body.student[values[0]]
-              };
-            }
-          });
-          logger.info(differentComparison);
-
+          shouldUpdate = true;
         }
         var now = new Date().getTime();
         req.body.student.updatedAt = now;
@@ -72,6 +62,22 @@ router.route('/v1/students')
                 "href": process.env.API_URL + '/api/v1/students/' + stu.id
               }
             }
+            if(shouldUpdate) {
+              var differentValues = _.differenceWith(_.toPairs(req.body.student), _.toPairs(stu._doc), _.isMatch);
+          
+              var differentComparison = {message: "Student Changed", changedUsername: stu.username, student: student._doc}
+                
+              _.forEach(differentValues, function(values){
+                if(values[0] in stu._doc && values[0] in req.body.student) {
+                  differentComparison[values[0]] = {
+                    old: stu._doc[values[0]],
+                    new: req.body.student[values[0]]
+                  };
+                }
+              });
+              logger.info(differentComparison);
+            }
+
             res.send(data);
           } else {
             res.send(404,JSON.stringify({"error": "studentNotFound"}));
@@ -85,6 +91,8 @@ router.route('/v1/students')
             res.send(err);
           obj._id = undefined;
           obj.__v = undefined;
+          var newUserLog = {message: "Student Created", newUsername: obj.username, student: obj._doc}
+          logger.info(newUserLog);
           var data = {
             "student": obj,
             "meta": {
@@ -126,7 +134,7 @@ router.route('/v1/students')
             callback(null, items);
           });
         } else {
-          queryTwo.skip(offset).select('-_id id firstName lastName buildingName buildingStateCode username gradeLevel').limit(limit).exec('find', function(err, items) {
+          queryTwo.skip(offset).select('-_id id firstName lastName buildingName buildingStateCode username gradeLevel pictureUrl').limit(limit).exec('find', function(err, items) {
             callback(null, items);
           });
         }
@@ -173,7 +181,8 @@ router.route('/v1/students/:id')
             lastName: obj.lastName,
             buildingName: obj.buildingName,
             buildingStateCode: obj.buildingStateCode,
-            gradeLevel: obj.gradeLevel
+            gradeLevel: obj.gradeLevel,
+            pictureUrl: obj.pictureUrl
           };
         }
         var data = {

@@ -35,7 +35,8 @@ var EmployeeSchema = new Schema({
   certNumber: String,
   title: String,
   badgeNumber: String,
-  refreshAccount: Boolean
+  refreshAccount: Boolean,
+  pictureUrl: String
 });
 
 EmployeeSchema.plugin(timestamps);
