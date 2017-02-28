@@ -96,6 +96,7 @@ app.use('/api', require('./app/routes/computers'));
 app.use('/api', require('./app/routes/buildings'));
 app.use('/api', require('./app/routes/phones'));
 app.use('/api', require('./app/routes/rooms'));
+app.use('/api', require('./app/routes/mealMenus'));
 
 //error log configuration
 app.use(expressWinston.errorLogger({
