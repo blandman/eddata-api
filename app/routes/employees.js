@@ -51,7 +51,7 @@ router.route('/v1/employees')
         }
         var now = new Date().getTime();
         req.body.employee.updatedAt = now;
-        Employee.findOneAndUpdate({nameId: req.body.employee.nameId}, {$set: req.body.employee}, function(err,employee) {
+        Employee.findOneAndUpdate({nameId: req.body.employee.nameId}, {$set: req.body.employee}, {new: true}, function(err,employee) {
           if (err) 
             res.send(err);
           if (employee) {
@@ -205,7 +205,7 @@ router.route('/v1/employees/:id')
   .put(function(req, res) {
     var now = new Date().getTime();
     req.body.employee.updatedAt = now;
-    Employee.findOneAndUpdate({id: req.params.id}, {$set: req.body.employee}, function(err,employee) {
+    Employee.findOneAndUpdate({id: req.params.id}, {$set: req.body.employee}, {new: true}, function(err,employee) {
       if (err) 
         res.send(err);
       if (employee) {

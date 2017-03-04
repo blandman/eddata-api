@@ -37,7 +37,7 @@ router.route('/v1/phones')
         var now = new Date().getTime();
         req.body.phone.updatedAt = now;
 
-        Phone.findOneAndUpdate({id: req.body.phone.id}, {$set: req.body.phone}, function(err, phone) {
+        Phone.findOneAndUpdate({id: req.body.phone.id}, {$set: req.body.phone}, {new: true}, function(err, phone) {
           if (err) 
             res.send(err);
           if (phone) {
@@ -157,7 +157,7 @@ router.route('/v1/phones/:id')
   .put(function(req, res) {
     var now = new Date().getTime();
     req.body.phone.updatedAt = now;
-    Phone.findOneAndUpdate({id: req.params.id}, {$set: req.body.phone}, function(err,phone) {
+    Phone.findOneAndUpdate({id: req.params.id}, {$set: req.body.phone}, {new: true}, function(err,phone) {
       if (err) 
         res.send(err);
       if (phone) {

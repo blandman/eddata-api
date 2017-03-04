@@ -35,7 +35,7 @@ router.route('/v1/sections')
         }
         var now = new Date().getTime();
         req.body.section.updatedAt = now;
-        Section.findOneAndUpdate({psId: req.body.section.psId}, {$set: req.body.section}, function(err,section) {
+        Section.findOneAndUpdate({psId: req.body.section.psId}, {$set: req.body.section}, {new: true}, function(err,section) {
           if (err) 
             res.send(err);
           if (section) {
@@ -166,7 +166,7 @@ router.route('/v1/sections/:id')
   .put(function(req, res) {
     var now = new Date().getTime();
     req.body.section.updatedAt = now;
-    Section.findOneAndUpdate({id: req.params.id}, {$set: req.body.section}, function(err,section) {
+    Section.findOneAndUpdate({id: req.params.id}, {$set: req.body.section}, {new: true}, function(err,section) {
       if (err) 
         res.send(err);
       if (section) {
