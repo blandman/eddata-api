@@ -24,7 +24,7 @@ router.route('/v1/mealmenus')
 	.post(async function(req, res) {
 		try {
 			const menu = await MealMenu.create(req.body.menu)
-			res.json(req.body.menu)
+			res.json(menu)
 		} catch (e) {
 			console.log(e)
 			res.status(400).send(e)
@@ -34,7 +34,14 @@ router.route('/v1/mealmenus')
 router.route('/v1/mealmenus/:id')
 	.get(async function (req, res) {
 		const menu = await MealMenu.findById(req.params.id).exec()
+		if (!menu) {
+			res.status(404)
+		}
 		res.json(menu)
+	})
+	.delete(async function (req, res) {
+		const menu = await MealMenu.findByIdAndRemove(req.params.id)
+		res.json({status: 'success'})
 	})
 
 router.route('/v1/mealmenus/:id/:year/:month/:day')
@@ -42,13 +49,12 @@ router.route('/v1/mealmenus/:id/:year/:month/:day')
 		const p = req.params
 		const path = ['menu', p.year, p.month, p.day].join('.')
 		try {
-			await MealMenu.findByIdAndUpdate(req.params.id, {$set: {[path]: req.body.entries}})
-			res.send({status: 'ok'})
+			await MealMenu.findByIdAndUpdate(req.params.id, {$set: {[path]: req.body.entries}}, {new: true})
+			res.send({status: 'success'})
 		} catch (e) {
 			console.error(e)
 			res.status(500).send(e)
 			return
 		}
-		res.json(req.body.entries)
 	})
 module.exports = router;

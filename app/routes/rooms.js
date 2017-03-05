@@ -38,7 +38,7 @@ router.route('/v1/rooms')
         var now = new Date().getTime();
         req.body.room.updatedAt = now;
 
-        Room.findOneAndUpdate({id: req.body.room.id}, {$set: req.body.room}, function(err, room) {
+        Room.findOneAndUpdate({id: req.body.room.id}, {$set: req.body.room}, {new: true}, function(err, room) {
           if (err) 
             res.send(err);
           if (room) {
@@ -153,7 +153,7 @@ router.route('/v1/rooms/:id')
   .put(function(req, res) {
     var now = new Date().getTime();
     req.body.room.updatedAt = now;
-    Room.findOneAndUpdate({id: req.params.id}, {$set: req.body.room}, function(err,room) {
+    Room.findOneAndUpdate({id: req.params.id}, {$set: req.body.room}, {new: true}, function(err,room) {
       if (err) 
         res.send(err);
       if (room) {

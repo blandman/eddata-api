@@ -157,7 +157,7 @@ router.route('/v1/buildings/:id')
   .put(function(req, res) {
     var now = new Date().getTime();
     req.body.building.updatedAt = now;
-    Building.findOneAndUpdate({id: req.params.id}, {$set: req.body.building}, function(err,building) {
+    Building.findOneAndUpdate({id: req.params.id}, {$set: req.body.building}, {new: true}, function(err,building) {
       if (err) 
         res.send(err);
       if (building) {

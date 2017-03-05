@@ -50,7 +50,7 @@ router.route('/v1/students')
         }
         var now = new Date().getTime();
         req.body.student.updatedAt = now;
-        Student.findOneAndUpdate({nameId: req.body.student.nameId}, {$set: req.body.student}, function(err,student) {
+        Student.findOneAndUpdate({nameId: req.body.student.nameId}, {$set: req.body.student}, {new: true}, function(err,student) {
           if (err) 
             res.send(err);
           if (student) {
@@ -201,7 +201,7 @@ router.route('/v1/students/:id')
   .put(function(req, res) {
     var now = new Date().getTime();
     req.body.student.updatedAt = now;
-    Student.findOneAndUpdate({id: req.params.id}, {$set: req.body.student}, function(err,student) {
+    Student.findOneAndUpdate({id: req.params.id}, {$set: req.body.student}, {new: true}, function(err,student) {
       if (err) 
         res.send(err);
       if (student) {

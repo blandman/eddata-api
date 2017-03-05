@@ -12,6 +12,5 @@ var MenuSchema = new Schema({
 
 MenuSchema.plugin(timestamps);
 MenuSchema.plugin(autoIncrement.plugin, { model: 'MealMenus', field: 'id' });
-MenuSchema.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('MealMenu', MenuSchema);

@@ -118,4 +118,12 @@ process.on('SIGINT', function() {
 // START THE SERVER
 // =============================================================================
 app.listen(port);
+
+if(process.env.EDDATA_INSECURE_DEV_HTTPS == '1') {
+	var fs = require('fs')
+	require('https').createServer({
+		key: fs.readFileSync('testkey.pem'),
+		cert: fs.readFileSync('testcert.pem')
+	}, app).listen(7980)
+}
 console.log('eddata api data spewing from port ' + port);

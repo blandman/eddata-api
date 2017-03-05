@@ -146,7 +146,7 @@ router.route('/v1/computers/:id')
   .put(function(req, res) {
     var now = new Date().getTime();
     req.body.computer.updatedAt = now;
-    Computer.findOneAndUpdate({id: req.params.id}, {$set: req.body.computer}, function(err,computer) {
+    Computer.findOneAndUpdate({id: req.params.id}, {$set: req.body.computer}, {new: true}, function(err,computer) {
       if (err) 
         res.send(err);
       if (computer) {
