@@ -93,6 +93,10 @@ app.use('/api', require('./app/routes/students'));
 app.use('/api', require('./app/routes/sections'));
 app.use('/api', require('./app/routes/enrollments'));
 app.use('/api', require('./app/routes/computers'));
+app.use('/api', require('./app/routes/buildings'));
+app.use('/api', require('./app/routes/phones'));
+app.use('/api', require('./app/routes/rooms'));
+app.use('/api', require('./app/routes/mealMenus'));
 
 //error log configuration
 app.use(expressWinston.errorLogger({
@@ -114,4 +118,12 @@ process.on('SIGINT', function() {
 // START THE SERVER
 // =============================================================================
 app.listen(port);
+
+if(process.env.EDDATA_INSECURE_DEV_HTTPS == '1') {
+	var fs = require('fs')
+	require('https').createServer({
+		key: fs.readFileSync('testkey.pem'),
+		cert: fs.readFileSync('testcert.pem')
+	}, app).listen(7980)
+}
 console.log('eddata api data spewing from port ' + port);

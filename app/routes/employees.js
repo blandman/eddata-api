@@ -40,8 +40,8 @@ router.route('/v1/employees')
         var shouldUpdate = false;
         if (emp.nalphakey == req.body.employee.nalphakey && emp.firstName == req.body.employee.firstName 
         && emp.middleName == req.body.employee.middleName && emp.lastName == req.body.employee.lastName
-        && emp.building == req.body.employee.building && emp.buildingName == req.body.employee.buildingName && emp.buildingStateCode == req.body.employee.buildingStateCode 
-        && emp.psdSSN == req.body.employee.psdSSN
+        && emp.building == req.body.employee.building && emp.buildingName == req.body.employee.buildingName 
+        && emp.buildingStateCode == req.body.employee.buildingStateCode && emp.psdSSN == req.body.employee.psdSSN 
         && emp.title == req.body.employee.title && emp.username == req.body.employee.username
         && emp.badgeNumber == req.body.employee.badgeNumber) {
           req.body.employee.refreshAccount = false;
@@ -51,7 +51,7 @@ router.route('/v1/employees')
         }
         var now = new Date().getTime();
         req.body.employee.updatedAt = now;
-        Employee.findOneAndUpdate({nameId: req.body.employee.nameId}, {$set: req.body.employee}, function(err,employee) {
+        Employee.findOneAndUpdate({nameId: req.body.employee.nameId}, {$set: req.body.employee}, {new: true}, function(err,employee) {
           if (err) 
             res.send(err);
           if (employee) {
@@ -140,7 +140,7 @@ router.route('/v1/employees')
             callback(null, items);
           });
         } else {
-          queryTwo.skip(offset).select('-_id id firstName lastName buildingName buildingStateCode username title').limit(limit).exec('find', function(err, items) {
+          queryTwo.skip(offset).select('-_id id firstName lastName buildingName buildingStateCode username title pictureUrl').limit(limit).exec('find', function(err, items) {
             callback(null, items);
           });
         }
@@ -185,7 +185,8 @@ router.route('/v1/employees/:id')
             firstName: obj.firstName,
             lastName: obj.lastName,
             buildingName: obj.buildingName,
-            title: obj.title
+            title: obj.title,
+            pictureUrl: obj.pictureUrl
           };
         }
         var data = {
@@ -204,7 +205,7 @@ router.route('/v1/employees/:id')
   .put(function(req, res) {
     var now = new Date().getTime();
     req.body.employee.updatedAt = now;
-    Employee.findOneAndUpdate({id: req.params.id}, {$set: req.body.employee}, function(err,employee) {
+    Employee.findOneAndUpdate({id: req.params.id}, {$set: req.body.employee}, {new: true}, function(err,employee) {
       if (err) 
         res.send(err);
       if (employee) {

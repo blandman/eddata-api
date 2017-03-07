@@ -40,7 +40,8 @@ var StudentSchema = new Schema({
   ec2: String,
   ec2Relation: String,
   ec2Phone: String,
-  refreshAccount: Boolean
+  refreshAccount: Boolean,
+  pictureUrl: String
 });
 
 StudentSchema.plugin(timestamps);

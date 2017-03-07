@@ -105,7 +105,7 @@ router.route('/v1/users/:id')
   .put(function(req, res) {
     var now = new Date().getTime();
     req.body.user.updatedAt = now;
-    User.findOneAndUpdate({id: req.params.id}, {$set: req.body.user}, function(err,user) {
+    User.findOneAndUpdate({id: req.params.id}, {$set: req.body.user}, {new: true}, function(err,user) {
       if (err) 
         res.send(err);
       if (user) {

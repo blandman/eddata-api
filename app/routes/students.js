@@ -50,7 +50,7 @@ router.route('/v1/students')
         }
         var now = new Date().getTime();
         req.body.student.updatedAt = now;
-        Student.findOneAndUpdate({nameId: req.body.student.nameId}, {$set: req.body.student}, function(err,student) {
+        Student.findOneAndUpdate({nameId: req.body.student.nameId}, {$set: req.body.student}, {new: true}, function(err,student) {
           if (err) 
             res.send(err);
           if (student) {
@@ -134,7 +134,7 @@ router.route('/v1/students')
             callback(null, items);
           });
         } else {
-          queryTwo.skip(offset).select('-_id id firstName lastName buildingName buildingStateCode username gradeLevel').limit(limit).exec('find', function(err, items) {
+          queryTwo.skip(offset).select('-_id id firstName lastName buildingName buildingStateCode username gradeLevel pictureUrl').limit(limit).exec('find', function(err, items) {
             callback(null, items);
           });
         }
@@ -181,7 +181,8 @@ router.route('/v1/students/:id')
             lastName: obj.lastName,
             buildingName: obj.buildingName,
             buildingStateCode: obj.buildingStateCode,
-            gradeLevel: obj.gradeLevel
+            gradeLevel: obj.gradeLevel,
+            pictureUrl: obj.pictureUrl
           };
         }
         var data = {
@@ -200,7 +201,7 @@ router.route('/v1/students/:id')
   .put(function(req, res) {
     var now = new Date().getTime();
     req.body.student.updatedAt = now;
-    Student.findOneAndUpdate({id: req.params.id}, {$set: req.body.student}, function(err,student) {
+    Student.findOneAndUpdate({id: req.params.id}, {$set: req.body.student}, {new: true}, function(err,student) {
       if (err) 
         res.send(err);
       if (student) {

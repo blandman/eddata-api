@@ -34,7 +34,7 @@ router.route('/v1/enrollments')
         }
         var now = new Date().getTime();
         req.body.enrollment.updatedAt = now;
-        Enrollment.findOneAndUpdate({psId: req.body.enrollment.psId}, {$set: req.body.enrollment}, function(err,enrollment) {
+        Enrollment.findOneAndUpdate({psId: req.body.enrollment.psId}, {$set: req.body.enrollment}, {new: true}, function(err,enrollment) {
           if (err) { return next(err); }
           if (enrollment) {
             enrollment._id = undefined;
@@ -156,7 +156,7 @@ router.route('/v1/enrollments/:id')
   .put(function(req, res) {
     var now = new Date().getTime();
     req.body.enrollment.updatedAt = now;
-    Enrollment.findOneAndUpdate({id: req.params.id}, {$set: req.body.enrollment}, function(err,enrollment) {
+    Enrollment.findOneAndUpdate({id: req.params.id}, {$set: req.body.enrollment}, {new: true}, function(err,enrollment) {
       if (err) { return next(err); }
       if (enrollment) {
         enrollment._id = undefined;
