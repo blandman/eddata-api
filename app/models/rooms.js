@@ -19,7 +19,11 @@ var RoomSchema = new Schema({
 	building: {type: Number, ref: "Building"},
 
 	name: String,
-	floor: Number
+	floor: Number,
+	groundFloow: Number,
+	
+	speakers: [],
+	computers: []
 });
 
 RoomSchema.plugin(timestamps);
