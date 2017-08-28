@@ -100,6 +100,9 @@ router.route('/v1/sections')
     } else if (qString.refresh) {
       var queryOne = Section.find({ refreshAccount: qString.refresh });
       var queryTwo = Section.find({ refreshAccount: qString.refresh });
+    } else if (qString.room) {
+      var queryOne = Section.find({ room: qString.room });
+      var queryTwo = Section.find({ room: qString.room });
     } else {
       var queryOne = Section.find({});
       var queryTwo = Section.find({});

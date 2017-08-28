@@ -98,6 +98,7 @@ app.use('/api', require('./app/routes/buildings'));
 app.use('/api', require('./app/routes/phones'));
 app.use('/api', require('./app/routes/rooms'));
 app.use('/api', require('./app/routes/mealMenus'));
+app.use('/api', require('./app/routes/monitoring'));
 
 //error log configuration
 app.use(expressWinston.errorLogger({
@@ -127,4 +128,5 @@ if(process.env.EDDATA_INSECURE_DEV_HTTPS == '1') {
 		cert: fs.readFileSync('testcert.pem')
 	}, app).listen(7980)
 }
+
 console.log('eddata api data spewing from port ' + port);
