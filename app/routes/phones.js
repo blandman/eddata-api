@@ -79,17 +79,17 @@ router.route('/v1/phones')
     var qString = req.query;
 
     if (qString.extension) {
-      var queryOne = Room.find({ extension: { $in: qString.extension } });
-      var queryTwo = Room.find({ extension: { $in: qString.extension } });
+      var queryOne = Phone.find({ extension: { $in: qString.extension } });
+      var queryTwo = Phone.find({ extension: { $in: qString.extension } });
     } else if (qString.displayName) {
-      var queryOne = Room.find({ displayName: qString.displayName });
-      var queryTwo = Room.find({ displayName: qString.displayName });
+      var queryOne = Phone.find({ displayName: qString.displayName });
+      var queryTwo = Phone.find({ displayName: qString.displayName });
     } else if (qString.room) {
-      var queryOne = Room.find({ room: qString.room });
-      var queryTwo = Room.find({ room: qString.room });
+      var queryOne = Phone.find({ room: qString.room });
+      var queryTwo = Phone.find({ room: qString.room });
     } else {
-      var queryOne = Room.find({});
-      var queryTwo = Room.find({});
+      var queryOne = Phone.find({});
+      var queryTwo = Phone.find({});
     }
 
     var limit = utils.setLimit(req.query.limit);

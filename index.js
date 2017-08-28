@@ -14,7 +14,8 @@ myLogTransports.push(new (winston.transports.Console)({
   colorize: true, 
   dumpExceptions: true, 
   showStack: true, 
-  timestamp: true 
+  timestamp: true,
+  stringify: (obj) => JSON.stringify(obj)
 }));
 
 //log file configuration

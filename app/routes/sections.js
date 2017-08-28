@@ -56,8 +56,14 @@ router.route('/v1/sections')
         req.body.section.refreshAccount = true;
         var section = new Section(req.body.section);
         section.save(function (err, obj) {
-          if(err) 
+          if(err) {
             res.send(err);
+	    return;
+	  }
+	  if(!obj) { 
+ 		res.send(404, JSON.stringify({"error": "no section object"}));
+		return
+	  }
           obj._id = undefined;
           obj.__v = undefined;
           var data = {
