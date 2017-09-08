@@ -21,6 +21,7 @@ var RoomSchema = new Schema({
 	name: String,
 	floor: Number,
 	
+	staff: [],
 	speakers: [],
 	computers: []
 });
