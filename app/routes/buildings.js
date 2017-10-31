@@ -82,7 +82,10 @@ router.route('/v1/buildings')
     if (qString.buildingCode) {
       var queryOne = Building.find({ buildingCode: qString.buildingCode });
       var queryTwo = Building.find({ buildingCode: qString.buildingCode });
-    } else if (qString.fullName) {
+    } else if (qString.buildingStateCode) {
+      var queryOne = Building.find({ buildingStateCode: qString.buildingStateCode });
+      var queryTwo = Building.find({ buildingStateCode: qString.buildingStateCode });
+    }else if (qString.fullName) {
       var queryOne = Building.find({ fullName: qString.fullName });
       var queryTwo = Building.find({ fullName: qString.fullName });
     } else if (qString.acronym) {

@@ -85,6 +85,12 @@ router.route('/v1/rooms')
     } else if (qString.name) {
       var queryOne = Room.find({ name: qString.name });
       var queryTwo = Room.find({ name: qString.name });
+    } else if (qString.staff) {
+      if(!Array.isArray(qString.staff)) {
+	qString.staff = [parseInt(qString.staff)];
+      }
+      var queryOne = Room.find({ staff: { $in: qString.staff } });
+      var queryTwo = Room.find({ staff: { $in: qString.staff } });
     } else {
       var queryOne = Room.find({});
       var queryTwo = Room.find({});

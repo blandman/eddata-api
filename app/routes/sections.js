@@ -94,15 +94,20 @@ router.route('/v1/sections')
       var queryOne = Section.find({ buildingStateCode: qString.bldg });
       var queryTwo = Section.find({ buildingStateCode: qString.bldg });
     } else if (qString.teacher) {
-      console.log("it is hitting this search term")
       var queryOne = Section.find({ teachers: parseInt(qString.teacher) });
       var queryTwo = Section.find({ teachers: parseInt(qString.teacher) });
-    } else if (qString.refresh) {
-      var queryOne = Section.find({ refreshAccount: qString.refresh });
-      var queryTwo = Section.find({ refreshAccount: qString.refresh });
+    } else if (qString.code) {
+      var queryOne = Section.find({ courseCode: qString.code });
+      var queryTwo = Section.find({ courseCode: qString.code });
+    } else if (qString.codeExists) {
+	var queryOne = Section.find({"courseCode": {$exists: true, $ne: ""}});
+	var queryTwo = Section.find({"courseCode": {$exists: true, $ne: ""}});
     } else if (qString.room) {
       var queryOne = Section.find({ room: qString.room });
       var queryTwo = Section.find({ room: qString.room });
+    } else if (qString.search && qString.field) {
+      var queryOne = Section.find({ `${qString.field}`:  `/${qString.search}/i` });
+      var queryTwo = Section.find({ `${qString.field}`: `/${qString.search}/i` });
     } else {
       var queryOne = Section.find({});
       var queryTwo = Section.find({});

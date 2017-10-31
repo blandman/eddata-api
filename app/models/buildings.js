@@ -24,6 +24,7 @@ var passportLocalMongoose = require('passport-local-mongoose');
 
 var BuildingSchema = new Schema({
 	buildingCode: Number,
+	buildingStateCode: Number,
 	acronym: String,
 	latitude: Number,
 	longitude: Number,

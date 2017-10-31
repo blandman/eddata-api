@@ -41,7 +41,8 @@ var StudentSchema = new Schema({
   ec2Relation: String,
   ec2Phone: String,
   refreshAccount: Boolean,
-  pictureUrl: String
+  pictureUrl: String,
+  photosAllowed: Boolean
 });
 
 StudentSchema.plugin(timestamps);
